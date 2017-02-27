@@ -6,6 +6,13 @@ jpgisgmlv4togml-converter
 基盤地図情報：[http://www.gsi.go.jp/kiban/](http://www.gsi.go.jp/kiban/)
 
 
+## Install
+
+$ virtualenv venv
+$ . venv/bin/activate
+(venv)$ pip install -r requirements.txt
+
+
 ## 使い方
 
 * 基盤地図情報基本項目XMLデータを、GMLに変換する
