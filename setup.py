@@ -24,8 +24,7 @@ setup(
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
     ],
-    package_data={'jpgisgml2gml': ['schema/FGD_GMLSchema.xsd']},
-
+    package_data={'jpgisgml2gml': ['data/FGD_GMLSchema.xsd']},
     entry_points="""
         [console_scripts]
         jpgisgml2gml=jpgisgml2gml:main

@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
-from lxml import etree
-from copy import copy
-from schema import Schema
+from jpgisgml2gml.schema import Schema
 
 
 class FgdSchema(Schema):
     def __init__(self, schemafile):
-        schema.__init__(self, schemafile)
+        Schema.__init__(self, schemafile)
 
     def get_fgd_element_names(self):
         names = []
@@ -69,19 +67,16 @@ class FgdSchema(Schema):
 
 
 if __name__ == '__main__':
-    xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'schema/FGD_GMLSchema.xsd')
+    xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data/FGD_GMLSchema.xsd')
     with open(xsdFile) as f:
         schema = FgdSchema(f)
-
-        elementnames = schema.get_fgd_element_names()
-        print elementnames
-
-        print schema.get_fgd_element_attributes("WStrL")
-        print schema.get_fgd_element("WStrL", "loc")
-        print schema.get_fgd_elements("WStrL")
-
+        element_names = schema.get_fgd_element_names()
+        print(element_names)
+        print(schema.get_fgd_element_attributes("WStrL"))
+        print(schema.get_fgd_element("WStrL", "loc"))
+        print(schema.get_fgd_elements("WStrL"))
         # print all types.
-        for e in elementnames:
+        for e in element_names:
             elements = schema.get_fgd_elements(e)
             for i in elements:
-                print i['type'].encode('utf_8')
+                print(i['type'].encode('utf_8'))

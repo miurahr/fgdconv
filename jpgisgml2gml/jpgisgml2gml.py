@@ -2,10 +2,10 @@
 # based on a script from http://wiki.openstreetmap.org/wiki/Converting_OSM_to_GML
 # modified to work with JPGIS(GML) V4.0 XSD by yoshida
 
-import os, sys, re, xml.sax
+import os, sys, xml.sax
 from xml.sax.handler import ContentHandler
 from xml.etree.ElementTree import Element, SubElement, ElementTree
-from fgdschema import FgdSchema
+from jpgisgml2gml.fgdschema import FgdSchema
 from itertools import islice
 from collections import deque
 
@@ -177,15 +177,13 @@ class Fgd2Gml(ContentHandler):
 
 
 if __name__ == "__main__":
-    xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'schema/FGD_GMLSchema.xsd')
+    xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data/FGD_GMLSchema.xsd')
     fgdParser = Fgd2Gml(sys.stdout, xsdFile)
-    print '<?xml version="1.0" encoding="utf-8" ?>'
-    print '<ogr:FeatureCollection'
-    print '     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
-    print '     xsi:schemaLocation=""'
-    print '     xmlns:ogr="http://ogr.maptools.org/"'
-    print '     xmlns:gml="http://www.opengis.net/gml">'
-
+    print('<?xml version="1.0" encoding="utf-8" ?>')
+    print('<ogr:FeatureCollection')
+    print('     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+    print('     xsi:schemaLocation=""')
+    print('     xmlns:ogr="http://ogr.maptools.org/"')
+    print('     xmlns:gml="http://www.opengis.net/gml">')
     xml.sax.parse(sys.stdin, fgdParser)
-
-    print '</ogr:FeatureCollection>'
+    print('</ogr:FeatureCollection>')

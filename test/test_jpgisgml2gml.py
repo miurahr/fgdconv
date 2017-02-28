@@ -5,5 +5,5 @@ import os
 
 class JpgisGml2GmlTestCase(TestCase):
     def setUp(self):
-        self.xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'schema/FGD_GMLSchema.xsd')
+        self.xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data/FGD_GMLSchema.xsd')
 

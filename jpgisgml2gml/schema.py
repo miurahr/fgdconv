@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from lxml import etree
-from copy import copy
+from xml import etree
 
 SCHEMA_SPACE = {
     "fgd:": "{http://fgd.gsi.go.jp/spec/2008/FGD_GMLSchema}",
