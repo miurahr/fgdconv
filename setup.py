@@ -9,20 +9,25 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name = "jpgis-converter",
+    name = "jpgisgml2gml",
     version = "0.0.1",
-    author = "",
+    author = "mizutuu",
     author_email = "",
     description = ("JPGIS(GML) v4 to GML converter."),
-    license = "MIT",
-    keywords = "JPGIS GML geo",
+    license = "MIT License",
+    keywords = "JPGIS GML geo GSI",
     url = "",
-    packages=['jpgis-converter'],
+    packages=['jpgisgml2gml'],
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
     ],
-    data_files=[('', ['jpgis-converter/FGD_GMLSchema.xsd'])]
+    package_data={'jpgisgml2gml': ['schema/FGD_GMLSchema.xsd']},
+
+    entry_points="""
+        [console_scripts]
+        jpgisgml2gml=jpgisgml2gml:main
+    """,
 )

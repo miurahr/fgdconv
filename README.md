@@ -5,19 +5,19 @@ jpgisgmlv4togml-converter
 
 基盤地図情報：[http://www.gsi.go.jp/kiban/](http://www.gsi.go.jp/kiban/)
 
+## Build and Install
 
-## Install
-
-$ virtualenv venv
+$ virtualenv --python=python3.5 venv
 $ . venv/bin/activate
-(venv)$ pip install -r requirements.txt
-
+$ pip install -r requirement.txt
+$ pip wheel .
+$ pip install jpgisgml2gml-0.0.1-py2-none-any.wheel
 
 ## 使い方
 
 * 基盤地図情報基本項目XMLデータを、GMLに変換する
 
-`$ cat FG-GML-533946-AdmArea-20140701-0001.xml | python jpgisgml2gml.py > AdmArea.gml`
+`$ jpgisgml2gml < FG-GML-533946-AdmArea-20140701-0001.xml > AdmArea.gml`
 
 * GMLを、Shapeに変換する
 
