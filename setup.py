@@ -25,6 +25,7 @@ setup(
         "License :: OSI Approved :: MIT License",
     ],
     package_data={'jpgisgml2gml': ['data/FGD_GMLSchema.xsd']},
+   install_requires=['lxml'],
     entry_points="""
         [console_scripts]
         jpgisgml2gml=jpgisgml2gml:main

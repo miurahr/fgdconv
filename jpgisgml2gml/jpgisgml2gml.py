@@ -11,9 +11,9 @@ from collections import deque
 
 
 class Fgd2Gml(ContentHandler):
-    def __init__(self, fh, xsdFile):
+    def __init__(self, file, xsdFile):
         ContentHandler.__init__(self)
-        self.fh = fh
+        self.fh = file
         self.xsdFile = xsdFile
         self.featureId = None
         self.featureTag = None
@@ -172,18 +172,5 @@ class Fgd2Gml(ContentHandler):
                 last_element = deque(node['node'], maxlen=1).pop()
                 new_element.text = last_element['text'].strip()
 
-        ElementTree(feature_member).write(self.fh, 'utf-8')
-        self.fh.write("\n")
-
-
-if __name__ == "__main__":
-    xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data/FGD_GMLSchema.xsd')
-    fgdParser = Fgd2Gml(sys.stdout, xsdFile)
-    print('<?xml version="1.0" encoding="utf-8" ?>')
-    print('<ogr:FeatureCollection')
-    print('     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-    print('     xsi:schemaLocation=""')
-    print('     xmlns:ogr="http://ogr.maptools.org/"')
-    print('     xmlns:gml="http://www.opengis.net/gml">')
-    xml.sax.parse(sys.stdin, fgdParser)
-    print('</ogr:FeatureCollection>')
+        ElementTree(feature_member).write(self.fh)
+        self.fh.write(b'\n')

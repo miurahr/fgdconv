@@ -5,6 +5,14 @@ jpgisgmlv4togml-converter
 
 基盤地図情報：[http://www.gsi.go.jp/kiban/](http://www.gsi.go.jp/kiban/)
 
+## Dependency
+
+Requirement:  Python 3.3 or later. Python 3.5 or later is recommended.
+No guarantee to run it with Python 2.7 versions.
+
+実行には、 Python バージョン3.3 以降が必要です。 Python バージョン3.5以降が推奨されます。
+Python 2.7での実行は、保証されません。
+
 ## Build and Install
 
 $ virtualenv --python=python3.5 venv

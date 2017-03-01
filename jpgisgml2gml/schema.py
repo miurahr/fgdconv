@@ -1,22 +1,32 @@
 # -*- coding: utf-8 -*-
 
-from xml import etree
+import xml.etree.ElementTree as ET
 
-SCHEMA_SPACE = {
-    "fgd:": "{http://fgd.gsi.go.jp/spec/2008/FGD_GMLSchema}",
-    "gml:": "{http://www.opengis.net/gml/3.2}",
-    "xlink:": "{http://www.w3.org/1999/xlink}",
-    "xs:": "{http://www.w3.org/2001/XMLSchema}"
-}
+try:
+    dict.iteritems
+except AttributeError:
+    # Python 3
+    def iteritems(d):
+        return iter(d.items())
+else:
+    # Python 2
+    def iteritems(d):
+        return d.iteritems()
 
 
 class Schema:
     def __init__(self, schemafile):
-        self.root = etree.parse(schemafile)
+        self.root = ET.parse(schemafile)
 
     @staticmethod
     def replace_ns(path):
-        for k, v in SCHEMA_SPACE.iteritems():
+        SCHEMA_SPACE = {
+            "fgd:": "{http://fgd.gsi.go.jp/spec/2008/FGD_GMLSchema}",
+            "gml:": "{http://www.opengis.net/gml/3.2}",
+            "xlink:": "{http://www.w3.org/1999/xlink}",
+            "xs:": "{http://www.w3.org/2001/XMLSchema}"
+        }
+        for k, v in iteritems(SCHEMA_SPACE):
             path = path.replace(k, v)
         return path
 

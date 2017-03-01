@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import lxml.etree
 from jpgisgml2gml.schema import Schema
 
 
@@ -40,7 +41,7 @@ class FgdSchema(Schema):
         if type is None:
             return None
 
-        typename = etree.QName(self.replace_ns(type)).localname
+        typename = lxml.etree.QName(self.replace_ns(type)).localname
         return self.get_fgd_complex_type_sequence(typename)
 
     def get_fgd_complex_type_sequence(self, name):
@@ -50,7 +51,7 @@ class FgdSchema(Schema):
         node = self.find(".//xs:complexType[@name='" + name + "']" +
                          "/xs:complexContent/xs:extension")
         if node is not None and node.attrib.get("base") is not None:
-            typename = etree.QName(self.replace_ns(node.attrib.get("base"))).localname
+            typename = lxml.etree.QName(self.replace_ns(node.attrib.get("base"))).localname
             elements.extend(self.get_fgd_complex_type_sequence(typename))
 
         # get the sequence element list.
