@@ -172,5 +172,5 @@ class Fgd2Gml(ContentHandler):
                 last_element = deque(node['node'], maxlen=1).pop()
                 new_element.text = last_element['text'].strip()
 
-        ElementTree(feature_member).write(self.fh)
+        ElementTree(feature_member).write(self.fh, "UTF-8")
         self.fh.write(b'\n')
