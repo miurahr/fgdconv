@@ -2,3 +2,5 @@
 *.whl
 venv/
 .idea
+build
+dist
