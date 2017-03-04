@@ -11,13 +11,27 @@ by Geographic Information Authority of Japan(GSI) to GML.
 Requirement
 -----------
 
-Python 3.3 or later. Python 3.5 or later is recommended.
-実行には、 Python バージョン3.3が必要です。 Python バージョン3.5以降が推奨されます。
+Python 2.7.13, Python 3.4 or later. Python 3.5 or later is recommended.
+実行には Python 3.4 または Python 2.7.13 が必要です。 Python バージョン3.5以降が推奨されます。
+
+Tested versions
+^^^^^^^^^^^^^^^
+
+* Python 2.7.13
+* Python 3.4.6
+* Python 3.5.3
+* Python 3.6.0
+
 
 Basic usage
 -----------
 
-Convert Fundamental Geospatial Data to GML 基盤地図情報基本項目XMLデータを、GMLに変換する::
+SYNOPSIS::
+
+    jpgisgml2gml [<Input FGD-GML filename>  [<Output GML filename>]]
+
+Convert Fundamental Geospatial Data to GML.
+基盤地図情報基本項目XMLデータを、GMLに変換する::
 
     $ jpgisgml2gml FG-GML-533946-AdmArea-20140701-0001.xml AdmArea.gml
 
