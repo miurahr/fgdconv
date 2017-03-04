@@ -24,14 +24,14 @@ Added
 * Add build scripts.
 * Add test cases.
 * Add commandline help message.
-* Use tox and pytest for test.
+* Add Pip requirements.txt
 
 Changed
 -------
 * Introduce package jpgisgml2gml.
 * Accept Commandline argument.
 * Documentation with ReST format.
- 
+
 Fixed
 -----
 * PEP8 warnings.
@@ -42,5 +42,5 @@ v0.0.1
 
 * Original initial work.
 
-.. _Unreleased: https://github.com/miurahr/jpgisgmlv4togml-converter/compare/v0.1.0...HEAD
-.. _v0.1.0: https://github.com/miurahr/jpgisgmlv4togml-converter/compare/v0.0.1...v0.1.0
+.. _Unreleased: https://github.com/miurahr/jpgisgml2gml/compare/v0.1.0...HEAD
+.. _v0.1.0: https://github.com/miurahr/jpgisgml2gml/compare/v0.0.1...v0.1.0

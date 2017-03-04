@@ -1,5 +1,8 @@
-# Include the license file
-include LICENSE.txt
-
 # Include the data files
 recursive-include jpgisgml2gml/data *
+
+# Include documents
+include *.rst
+include *.txt
+recursive-include docs *.rst
+
