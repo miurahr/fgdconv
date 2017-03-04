@@ -36,6 +36,7 @@ Fixed
 -----
 * PEP8 warnings.
 * Support both Python3 (>=3.4) and Python 2 (=2.7.x)
+* Workaround known bug for build bdist_wininst on Linux
 
 v0.0.1
 ======

@@ -3,16 +3,29 @@ from os import path
 from setuptools import setup
 from setuptools import find_packages
 
+import codecs
 
+
+# Workaround for bdist_wininst build on Linux
+try:
+    codecs.lookup('mbcs')
+except LookupError:
+    ascii = codecs.lookup('ascii')
+    func = lambda name, enc=ascii: {True: enc}.get(name=='mbcs')
+    codecs.register(func)
+
+# use README as long_description
 here = path.abspath(path.dirname(__file__))
 # Get the long description from the README file
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
+# Dependencies
 requires = ['lxml>=3.7.3']
 extras = {
     'dev': ['virtualenv'],
     'test': ['check_manifest', 'coverage', 'flake8', 'nose', 'tox']}
+
 
 setup(
     name="jpgisgml2gml",
