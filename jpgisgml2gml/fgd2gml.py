@@ -1,20 +1,25 @@
 # -*- coding: utf-8 -*-
-# based on a script from http://wiki.openstreetmap.org/wiki/Converting_OSM_to_GML
+# based on a script from
+#     http://wiki.openstreetmap.org/wiki/Converting_OSM_to_GML
 # modified to work with JPGIS(GML) V4.0 XSD by yoshida
 
-import os, sys, xml.sax
+import os
 from xml.sax.handler import ContentHandler
-from xml.etree.ElementTree import Element, SubElement, ElementTree
-from jpgisgml2gml.fgdschema import FgdSchema
+from xml.etree.ElementTree import Element
+from xml.etree.ElementTree import SubElement
+from xml.etree.ElementTree import ElementTree
 from itertools import islice
 from collections import deque
+
+from . import fgdschema
 
 
 class Fgd2Gml(ContentHandler):
     def __init__(self, file):
         ContentHandler.__init__(self)
         self.fh = file
-        self.xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data/FGD_GMLSchema.xsd')
+        self.xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                                    'data/FGD_GMLSchema.xsd')
         self.featureId = None
         self.featureTag = None
         self.nodeElements = None
@@ -23,17 +28,14 @@ class Fgd2Gml(ContentHandler):
         self.nodes = []
         self.tags = None
 
-    def endDocument(self):
-        self.fh.write(b'</ogr:FeatureCollection>\n')
-
     def get_fgd_tags(self):
         with open(self.xsdFile) as f:
-            schema = FgdSchema(f)
+            schema = fgdschema.FgdSchema(f)
             return schema.get_fgd_element_names()
 
     def get_fgd_node_elements(self, name):
         with open(self.xsdFile) as f:
-            schema = FgdSchema(f)
+            schema = fgdschema.FgdSchema(f)
             self.nodeElements = schema.get_fgd_elements(name)
 
     def get_fgd_node_element(self, name):
@@ -60,7 +62,8 @@ class Fgd2Gml(ContentHandler):
         if self.nodeElements is None:
             self.get_fgd_node_elements(self.featureTag)
 
-        # matched FGD node member name. (case of WStrL element, 'loc', 'type', 'name', etc...)
+        # matched FGD node member name.
+        # (case of WStrL element, 'loc', 'type', 'name', etc...)
         node = self.get_fgd_node_element(name)
         if node is None:
             return False
@@ -76,11 +79,15 @@ class Fgd2Gml(ContentHandler):
         self.current = None
         self.nodes = []
         self.fh.write(b'<?xml version="1.0" encoding="utf-8" ?>\n')
-        self.fh.write(b'<ogr:FeatureCollection\n')
-        self.fh.write(b'     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n')
-        self.fh.write(b'     xsi:schemaLocation=""\n')
-        self.fh.write(b'     xmlns:ogr="http://ogr.maptools.org/"\n')
-        self.fh.write(b'     xmlns:gml="http://www.opengis.net/gml">\n')
+        self.fh.write(b'<ogr:FeatureCollection')
+        self.fh.write(b' xmlns:xsi=')
+        self.fh.write(b'"http://www.w3.org/2001/XMLSchema-instance"')
+        self.fh.write(b' xsi:schemaLocation=""')
+        self.fh.write(b' xmlns:ogr="http://ogr.maptools.org/"')
+        self.fh.write(b' xmlns:gml="http://www.opengis.net/gml">\n')
+
+    def endDocument(self):
+        self.fh.write(b'</ogr:FeatureCollection>\n')
 
     def characters(self, data):
         if self.current is not None:
@@ -114,7 +121,6 @@ class Fgd2Gml(ContentHandler):
             self.currentStack[-1]['node'].append(new_node)
             self.currentStack.append(new_node)
 
-
     def endElement(self, name):
         if self.current is not None and self.current['name'] == name:
             # find end FGD node tag.
@@ -143,13 +149,17 @@ class Fgd2Gml(ContentHandler):
         if node['name'] in {'gml:pos', 'gml:posList'}:
             # convert the lat/lon -> lon/lat.
             content_list = new_element.text.split("\n")
-            new_element.text = ' '.join([x[1] + "," + x[0] for x in [x.split() for x in content_list if x != ""]])
-
+            new_element.text = self.split_content(content_list)
         for n in node['node']:
             self.rebuild_element(new_element, n)
 
+    def split_content(self, content_list):
+        return ' '.join([x[1] + "," + x[0]
+                         for x in [x.split()
+                                   for x in content_list if x != ""]])
+
     def generate_feature(self):
-        feature_member = Element('gml:featureMember')
+        feature_member = Element('gml:featureMember',)
         feature = SubElement(feature_member, 'ogr:' + self.featureTag)
         # set the fid.
         for node in self.nodes:
@@ -164,8 +174,10 @@ class Fgd2Gml(ContentHandler):
             new_element = SubElement(feature, 'ogr:' + node['name'])
             new_element.text = node['text'].strip()
 
-            if node['type'] in {'gml:CurvePropertyType', 'gml:DiscreteCoverageType',
-                                'gml:PointPropertyType', 'gml:SurfacePropertyType'}:
+            if node['type'] in {'gml:CurvePropertyType',
+                                'gml:DiscreteCoverageType',
+                                'gml:PointPropertyType',
+                                'gml:SurfacePropertyType'}:
                 geom_element = SubElement(new_element, 'ogr:geometryProperty')
                 geom_element.text = node['text'].strip()
                 for n in node['node']:
@@ -180,5 +192,6 @@ class Fgd2Gml(ContentHandler):
                 last_element = deque(node['node'], maxlen=1).pop()
                 new_element.text = last_element['text'].strip()
 
-        ElementTree(feature_member).write(self.fh, "UTF-8")
+        ElementTree(feature_member).write(self.fh, encoding="UTF-8",
+                                          xml_declaration=False)
         self.fh.write(b'\n')

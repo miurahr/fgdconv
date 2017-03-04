@@ -21,22 +21,21 @@ Fixed
 
 Added
 -----
-* Add setup.py build script.
-* Add requirements.txt
-* Add convert test
+* Add build scripts.
+* Add test cases.
 * Add commandline help message.
+* Use tox and pytest for test.
 
 Changed
 -------
-* Support Python3 (>3.3)
-* Commandline argument.
+* Introduce package jpgisgml2gml.
+* Accept Commandline argument.
 * Documentation with ReST format.
  
 Fixed
 -----
 * PEP8 warnings.
-* Charset error when running setup.py task.
-* Fix mojibake on Windows installer.
+* Support both Python3 (>=3.4) and Python 2 (=2.7.x)
 
 v0.0.1
 ======
