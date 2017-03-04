@@ -11,10 +11,10 @@ from collections import deque
 
 
 class Fgd2Gml(ContentHandler):
-    def __init__(self, file, xsdFile):
+    def __init__(self, file):
         ContentHandler.__init__(self)
         self.fh = file
-        self.xsdFile = xsdFile
+        self.xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data/FGD_GMLSchema.xsd')
         self.featureId = None
         self.featureTag = None
         self.nodeElements = None
@@ -22,6 +22,9 @@ class Fgd2Gml(ContentHandler):
         self.current = None
         self.nodes = []
         self.tags = None
+
+    def endDocument(self):
+        self.fh.write(b'</ogr:FeatureCollection>\n')
 
     def get_fgd_tags(self):
         with open(self.xsdFile) as f:
@@ -69,11 +72,15 @@ class Fgd2Gml(ContentHandler):
         self.nodeElements = None
         self.featureTag = None  # ex) 'WStrL', 'Cstline', etc...
         self.featureId = None
-
         self.currentStack = []
         self.current = None
-
         self.nodes = []
+        self.fh.write(b'<?xml version="1.0" encoding="utf-8" ?>\n')
+        self.fh.write(b'<ogr:FeatureCollection\n')
+        self.fh.write(b'     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n')
+        self.fh.write(b'     xsi:schemaLocation=""\n')
+        self.fh.write(b'     xmlns:ogr="http://ogr.maptools.org/"\n')
+        self.fh.write(b'     xmlns:gml="http://www.opengis.net/gml">\n')
 
     def characters(self, data):
         if self.current is not None:
@@ -106,6 +113,7 @@ class Fgd2Gml(ContentHandler):
             }
             self.currentStack[-1]['node'].append(new_node)
             self.currentStack.append(new_node)
+
 
     def endElement(self, name):
         if self.current is not None and self.current['name'] == name:
