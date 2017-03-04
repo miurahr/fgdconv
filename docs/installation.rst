@@ -1,14 +1,8 @@
 Installation
 ============
 
-Dependency
-----------
-
-Requirement:  Python 3.5 or later is recommended.
-実行には、 Python バージョン3.5以降が必要です。
-
-Build and Install
------------------
+Install from wheel
+------------------
 
 It is recommend to use with virtual environment for POSIX system (e.g. Linux, MacOSX).
 
