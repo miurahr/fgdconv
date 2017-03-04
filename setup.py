@@ -1,31 +1,49 @@
-import os
-from setuptools import setup
+from os import path
+from setuptools import setup, find_packages
+from codecs import open
 
-# Utility function to read the README file.
-# Used for the long_description.  It's nice, because now 1) we have a top level
-# README file and 2) it's easier to type in the README file than to put a raw
-# string in below ...
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname), encoding="UTF-8").read()
+here = path.abspath(path.dirname(__file__))
+
+# Get the long description from the README file
+with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
-    name = "jpgisgml2gml",
-    version = "0.0.1",
-    author = "mizutuu",
-    author_email = "",
-    description = ("JPGIS(GML) v4 to GML converter."),
-    license = "MIT License",
-    keywords = "JPGIS GML geo GSI",
-    url = "",
-    packages=['jpgisgml2gml'],
-    long_description=read('README.md'),
+    name="jpgisgml2gml",
+    version="0.1.0",
+    author="Hiroshi Miura",
+    author_email="miurahr@linux.com",
+    description=("JPGIS(GML) v4 to GML converter."),
+    license='MIT',
     classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Topic :: Utilities",
-        "License :: OSI Approved :: MIT License",
+        'Development Status :: 3 - Alpha',
+        'Environment :: Console',
+        'Intended Audience :: Education',
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering',
+        'Topic :: Text Processing',
+        'Topic :: Utilities',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
+    keywords="GIS GML geospatial KIBAN",
+    url="https://github.com/miurahr/jpgisv4togml",
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     package_data={'jpgisgml2gml': ['data/FGD_GMLSchema.xsd']},
-   install_requires=['lxml'],
+    install_requires=['lxml'],
+    extras_require={
+        'dev': ['check-manifest'],
+        'test': ['coverage'],
+    },
+    # To provide executable scripts, use entry points in preference to the
+    # "scripts" keyword. Entry points provide cross-platform support and allow
+    # pip to create the appropriate form of executable for the target platform.
     entry_points="""
         [console_scripts]
         jpgisgml2gml=jpgisgml2gml:main

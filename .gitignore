@@ -1,6 +1,8 @@
+*.egg-info
 *.pyc
 *.whl
+.idea/
+.tox/
+build/
+dist/
 venv/
-.idea
-build
-dist
