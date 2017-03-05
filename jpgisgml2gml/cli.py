@@ -22,99 +22,84 @@
 
 from io import open
 import argparse
+import os
 import sys
 import tempfile
 import xml
 
-import jpgisgml2gml
-import jgd2k2wgs84
-
-# detect python2 or python3
-try:
-    unicode
-    py3 = False
-except NameError:
-    py3 = True
+from jpgisgml2gml.fgd2gml import Fgd2Gml
+from jpgisgml2gml.jgd2k2wgs84 import Jgd2kToWgs84
 
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', dest='conv', action='store_true',
+                        help="Convert coordination from JGD2000 to WGS84")
+    parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
+                        default=sys.stdin, help='JPGIS(GML) v4 input file.')
+    parser.add_argument('outfile', nargs='?',  type=argparse.FileType('wb'),
+                        default=sys.stdout.buffer,  # should be bytestream
+                        help='Output GML file. If not specified')
+    args = parser.parse_args()
+    if args.conv:
+        gml_f = os.path.join(tempfile.mkdtemp(), 'fifo')
+        os.mkfifo(gml_f)
+        gml = open(gml_f, "wb")
+        xml.sax.parse(args.infile, Fgd2Gml(gml))
+        converter = Jgd2kToWgs84()
+        converter.prepare(gml_f, args.outfile)
+        converter.convert()
+        converter.close()
+    else:
+        xml.sax.parse(args.infile, Fgd2Gml(args.outfile))
+
+
+# --------------------------------------------------
+# Python 2.7 compatibility code
+# --------------------------------------------------
 def commandline_arg(bytestring):
     unicode_string = bytestring.decode(sys.getfilesystemencoding())
     return unicode_string
 
 
-def get_parser():
-    inhelp = 'JPGIS(GML) v4 input file.'
-    outhelp = "Output GML file. If not specified"
+def main2():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', dest='conv', action='store_true',
-                        help="Convert coordination from JGD2000 to WGS84")
-    if py3:
-        parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
-                            default=sys.stdin, help=inhelp)
-        parser.add_argument('outfile', nargs='?', help=outhelp)
-    else:
-        parser.add_argument('infile', nargs='?', type=commandline_arg,
-                            help=inhelp)
-        parser.add_argument('outfile', nargs='?', type=commandline_arg,
-                            help=outhelp)
-    return parser
-
-
-def get_outfile_object(args):
-    if args.outfile is not None:
-        return open(args.outfile, 'wb')
-    else:
-        return sys.stdout
-
-
-def infile(args):
-    if py3:
-        return args.infile
-    else:
-        if args.infile_name is not None:
-            return open(args.infile, 'rb')
-        else:
-            return sys.stdin
-
-
-def main():
-    parser = get_parser()
+                        help='Convert coordination from JGD2000 to WGS84')
+    parser.add_argument('infile', nargs='?', type=commandline_arg,
+                        help='JPGIS(GML) v4 input file.')
+    parser.add_argument('outfile', nargs='?', type=commandline_arg,
+                        help='Output GML file. If not specified')
     args = parser.parse_args()
-    conv = args.conv
-    flag_stdout = False
-
-    if conv:
-        gml = tempfile.NamedTemporaryFile()
-        gml_f = gml.name
-        if args.outfile is None:
-            gml84 = tempfile.NamedTemporaryFile()
-            gml84_f = gml84.name
-            gml84.close()
-            flag_stdout = True
-        else:
-            gml84_f = args.outfile
+    if args.outfile is not None:
+        outfile = open(args.outfile, 'w')
     else:
-        gml = get_outfile_object(args)
-
-    fgd_parser = jpgisgml2gml.Fgd2Gml(gml)
-    if py3:
-        xml.sax.parse(infile(args), fgd_parser)
+        outfile = sys.stdout
+    if args.infile_name is None:
+        source = open(args.infile, 'r').read()
     else:
-        # Python2.7 will got encoding error with xml.sax.parse()
-        # so reading source XML explicitly.
-        source = infile(args).read().decode(encoding="UTF-8")
-        xml.sax.parseString(source, fgd_parser)
-    if conv:
-        converter = jgd2k2wgs84.Jgd2k2Gml()
-        converter.prepare(gml_f, gml84_f)
+        source = sys.stdin.read()
+    if args.conv:
+        tmpdir = tempfile.mkdtemp()
+        gml_f = os.path.join(tmpdir, 'fifo')
+        os.mkfifo(gml_f)
+        gml = open(gml_f, "wb")
+        xml.sax.parseString(source, Fgd2Gml(gml))
+        converter = Jgd2kToWgs84()
+        converter.prepare(gml_f, outfile)
         converter.convert()
         converter.close()
-        if flag_stdout:
-            fin = open(gml84_f, 'r')
-            for line in fin:
-                print(line.strip())
-            fin.close()
+    else:
+        xml.sax.parseString(source, Fgd2Gml(outfile))
+# --------------------------------------------------
+# End of Python 2.7 compatibility code
+# --------------------------------------------------
 
 
 if __name__ == '__main__':
-    exit(main())
+    # detect python2 or python3
+    try:
+        unicode
+        exit(main2())
+    except NameError:
+        exit(main())
