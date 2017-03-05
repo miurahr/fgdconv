@@ -10,9 +10,9 @@ import codecs
 try:
     codecs.lookup('mbcs')
 except LookupError:
-    ascii = codecs.lookup('ascii')
-    func = lambda name, enc=ascii: {True: enc}.get(name=='mbcs')
-    codecs.register(func)
+    codecs.register(lambda name,
+                    enc=codecs.lookup('ascii'):
+                    {True: enc}.get(name == 'mbcs'))
 
 # use README as long_description
 here = path.abspath(path.dirname(__file__))
