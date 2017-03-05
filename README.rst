@@ -14,14 +14,6 @@ Requirement
 Python 2.7.13, Python 3.4 or later. Python 3.5 or later is recommended.
 実行には Python 3.4 または Python 2.7.13 が必要です。 Python バージョン3.5以降が推奨されます。
 
-Tested versions
-^^^^^^^^^^^^^^^
-
-* Python 2.7.13
-* Python 3.4.6
-* Python 3.5.3
-* Python 3.6.0
-
 
 Basic usage
 -----------
