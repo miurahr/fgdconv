@@ -63,6 +63,6 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points="""
         [console_scripts]
-        jpgisgml2gml=cli:main
+        jpgisgml2gml=jpgisgml2gml.cli:main
     """,
 )
