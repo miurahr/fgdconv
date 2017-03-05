@@ -28,7 +28,7 @@ import tempfile
 import xml
 
 from jpgisgml2gml.fgd2gml import Fgd2Gml
-from jpgisgml2gml.jgd2k2wgs84 import Jgd2kToWgs84
+from jpgisgml2gml.ogrconv import OgrConv
 
 
 def main():
@@ -45,11 +45,11 @@ def main():
         os.mkfifo(gml_f)
         gml = open(gml_f, "wb")
         xml.sax.parse(args.infile, Fgd2Gml(gml))
-        converter = Jgd2kToWgs84(4612, 4326)
-        converter.convert(gml_f, args.outfile)
-        converter.close()
+        converter = OgrConv(4612, 4326)
+        converter.convert(gml_f, "GML", args.outfile, "GML")
     else:
         xml.sax.parse(args.infile, Fgd2Gml(args.outfile))
+
 
 # --------------------------------------------------
 # Python 2.7 compatibility code
@@ -76,9 +76,8 @@ def main2():
         os.mkfifo(gml_f)
         gml = open(gml_f, "wb")
         xml.sax.parseString(source, Fgd2Gml(gml))
-        converter = Jgd2kToWgs84(4612, 4326)
-        converter.convert(gml_f, outfile)
-        converter.close()
+        converter = OgrConv(4612, 4326)
+        converter.convert(gml_f, "GML", outfile, "GML")
     else:
         xml.sax.parseString(source, Fgd2Gml(outfile))
 # --------------------------------------------------
