@@ -19,21 +19,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
 from osgeo import ogr
 from osgeo import osr
 
 
-class Jgd2kToWgs84():
-    def __init__(self):
-        # setup drivers
+class Jgd2kToWgs84:
+    def __init__(self, inRef, outRef):
         self.driver = ogr.GetDriverByName('GML')
         # input SpatialReference to JGD2000
         in_spatial_ref = osr.SpatialReference()
-        in_spatial_ref.ImportFromEPSG(4612)
+        in_spatial_ref.ImportFromEPSG(inRef)
         # output SpatialReference to WGS84
         out_spatial_ref = osr.SpatialReference()
-        out_spatial_ref.ImportFromEPSG(4326)
+        out_spatial_ref.ImportFromEPSG(outRef)
         # create the CoordinateTransformation
         self.coordTrans = osr.CoordinateTransformation(in_spatial_ref,
                                                        out_spatial_ref)
@@ -41,24 +39,12 @@ class Jgd2kToWgs84():
         self.inLayer = None
         self.outLayer = None
 
-    def prepare(self, inFilename, outFilename):
-        # get the input layer
+    def convert(self, inFilename, outFilename):
         self.inDataSet = self.driver.Open(inFilename)
         self.inLayer = self.inDataSet.GetLayer()
-        # create the output layer
-        #if os.path.exists(outFilename):
-        #    self.driver.DeleteDataSource(outFilename)
         self.outDataSet = self.driver.CreateDataSource(outFilename)
         self.outLayer = self.outDataSet.CreateLayer("FGD_GML4326",
                                                geom_type=ogr.wkbMultiPolygon)
-
-    def convert(self):
-        # check already prepare layers.
-        if self.inLayer is None:
-            return
-        if self.outLayer is None:
-            return
-
         # add fields
         inLayerDefn = self.inLayer.GetLayerDefn()
         for i in range(0, inLayerDefn.GetFieldCount()):

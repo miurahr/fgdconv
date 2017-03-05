@@ -35,10 +35,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', dest='conv', action='store_true',
                         help="Convert coordination from JGD2000 to WGS84")
-    parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
-                        default=sys.stdin, help='JPGIS(GML) v4 input file.')
-    parser.add_argument('outfile', nargs='?',  type=argparse.FileType('wb'),
-                        default=sys.stdout.buffer,  # should be bytestream
+    parser.add_argument('infile', type=argparse.FileType('r'),
+                        help='JPGIS(GML) v4 input file.')
+    parser.add_argument('outfile', type=argparse.FileType('wb'),
                         help='Output GML file. If not specified')
     args = parser.parse_args()
     if args.conv:
@@ -46,13 +45,11 @@ def main():
         os.mkfifo(gml_f)
         gml = open(gml_f, "wb")
         xml.sax.parse(args.infile, Fgd2Gml(gml))
-        converter = Jgd2kToWgs84()
-        converter.prepare(gml_f, args.outfile)
-        converter.convert()
+        converter = Jgd2kToWgs84(4612, 4326)
+        converter.convert(gml_f, args.outfile)
         converter.close()
     else:
         xml.sax.parse(args.infile, Fgd2Gml(args.outfile))
-
 
 # --------------------------------------------------
 # Python 2.7 compatibility code
@@ -66,28 +63,21 @@ def main2():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', dest='conv', action='store_true',
                         help='Convert coordination from JGD2000 to WGS84')
-    parser.add_argument('infile', nargs='?', type=commandline_arg,
+    parser.add_argument('infile', type=commandline_arg,
                         help='JPGIS(GML) v4 input file.')
-    parser.add_argument('outfile', nargs='?', type=commandline_arg,
+    parser.add_argument('outfile', type=commandline_arg,
                         help='Output GML file. If not specified')
     args = parser.parse_args()
-    if args.outfile is not None:
-        outfile = open(args.outfile, 'w')
-    else:
-        outfile = sys.stdout
-    if args.infile_name is None:
-        source = open(args.infile, 'r').read()
-    else:
-        source = sys.stdin.read()
+    outfile = open(args.outfile, 'w')
+    source = open(args.infile, 'r').read()
     if args.conv:
         tmpdir = tempfile.mkdtemp()
         gml_f = os.path.join(tmpdir, 'fifo')
         os.mkfifo(gml_f)
         gml = open(gml_f, "wb")
         xml.sax.parseString(source, Fgd2Gml(gml))
-        converter = Jgd2kToWgs84()
-        converter.prepare(gml_f, outfile)
-        converter.convert()
+        converter = Jgd2kToWgs84(4612, 4326)
+        converter.convert(gml_f, outfile)
         converter.close()
     else:
         xml.sax.parseString(source, Fgd2Gml(outfile))

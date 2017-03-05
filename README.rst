@@ -20,16 +20,16 @@ Basic usage
 
 SYNOPSIS::
 
-    jpgisgml2gml [<Input FGD-GML filename>  [<Output GML filename>]]
+    jpgisgml2gml [-c] <Input FGD-GML filename>  <Output GML filename>
 
 Convert Fundamental Geospatial Data to GML.
-基盤地図情報基本項目XMLデータを、GMLに変換する::
+基盤地図情報基本項目XMLデータをGMLに変換する::
 
     $ jpgisgml2gml FG-GML-533946-AdmArea-20140701-0001.xml AdmArea.gml
 
-Convert GML to Shapefile GMLを、Shapeに変換する::
+-c オプションを指定すると、出力をWGS84の測量系に変換する。::
 
-    $ ogr2ogr -f "ESRI Shapefile" -lco "ENCODING=UTF-8" AdmArea AdmArea.gml
+    $ jpgisgml2gml -c FG-GML-533946-AdmArea-20140701-0001.xml AdmArea.gml
 
 
 License and copyright

@@ -10,6 +10,7 @@ Recommend to use `Virtualenv` to prepare python environment::
     $ virtualenv --python=python3.5 venv
     $ . venv/bin/activate
     $ pip install -rrequirements.txt -rrequirements-dev.txt
+    $ pip wheel .
 
 
 Test environment
@@ -24,7 +25,8 @@ It is recommended to use `pyenv` to install python versions::
     $ pyenv install 3.6.0
     $ pyenv virtualenv 3.6.0 venv
     $ pyenv local venv 2.7.13 3.4.6 3.5.3 3.6.0
-    $ pip install tox pytest
+    $ sudo apt install libgdal-dev
+    $ pip install -rrequirements.txt -rrequirements-dev.txt
     $ tox
 
 

@@ -23,7 +23,6 @@ from unittest import TestCase
 from io import open  # support python2.7
 import os
 
-
 from jpgisgml2gml.jgd2k2wgs84 import Jgd2kToWgs84
 
 
@@ -34,9 +33,8 @@ class Jgd2k2Wgs84TestCase(TestCase):
     def test_convert(self):
         out_f_name = os.path.join("/tmp", "BldA84_test.gml")
         in_f_name = os.path.join(self.here, 'BldA.gml')
-        converter = Jgd2kToWgs84()
-        converter.prepare(in_f_name, out_f_name)
-        converter.convert()
+        converter = Jgd2kToWgs84(4612, 4326)
+        converter.convert(in_f_name, out_f_name)
         converter.close()
         out_f = open(out_f_name, 'r', encoding="utf-8")
         out_text = out_f.read()
