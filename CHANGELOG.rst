@@ -9,12 +9,16 @@ All notable changes to this project will be documented in this file.
 
 Added
 -----
+* Support conversion from JGD2000 to WGS84 coordination.
+* Documentation with Sphinx document processor.
 
 Changed
 -------
+* Not support STDIN and STDOUT interface.
 
 Fixed
 -----
+
 
 `v0.1.0`_
 =========
