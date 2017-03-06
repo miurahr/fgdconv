@@ -1,18 +1,21 @@
-JPGISGML2Gml
-===============
+FGDConv
+=======
 
 This is a converter program to convert from Fundamental Geospatial Data provided
 by Geographic Information Authority of Japan(GSI) to GML.
 
-国土地理院 `基盤地図情報`_ 基本項目 JPGIS(GML) V4.0形式のデータをGMLに変換するコンバータです。
+国土地理院基盤地図情報`FGD`_ (Fundamental Geospatial Data) 基本項目 JPGIS(GML)
+V4.0形式のデータをGMLに変換するコンバータです。
 
-.. _基盤地図情報: http://www.gsi.go.jp/kiban/
+
+.. _FGD: http://www.gsi.go.jp/kiban/
 
 Requirement
 -----------
 
 Python 2.7.13, Python 3.4 or later. Python 3.5 or later is recommended.
-実行には Python 3.4 または Python 2.7.13 が必要です。 Python バージョン3.5以降が推奨されます。
+実行には Python 3.4 または Python 2.7.13 が必要です。
+Python バージョン3.5以降が推奨されます。
 
 
 Basic usage

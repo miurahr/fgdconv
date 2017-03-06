@@ -28,7 +28,7 @@ import xml
 from jpgisgml2gml import fgd2gml
 
 
-class JpgisGml2GmlTestCase(TestCase):
+class FgdConvTestCase(TestCase):
     def setUp(self):
         self.here = os.path.dirname(__file__)
 
