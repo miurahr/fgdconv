@@ -40,7 +40,7 @@ class CliTestCase(TestCase):
     def test_main(self):
         args = MockArgs()
         args.conv = False
-        args.outfile = "/tmp/out.gml"
+        args.outfile = "/tmp/BldA84_test.gml"
         try:
             unicode  # python2.7
             args.infile = os.path.join(self.here, "BldA.xml")
@@ -59,7 +59,7 @@ class CliTestCase(TestCase):
     def test_conv(self):
         args = MockArgs()
         args.conv = True
-        args.outfile = "/tmp/out.gml"
+        args.outfile = "/tmp/BldA84_test.gml"
         try:
             unicode  # python2.7
             args.infile = os.path.join(self.here, "BldA.xml")

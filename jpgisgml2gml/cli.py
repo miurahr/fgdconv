@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from io import open
 import argparse
 import os
 import sys
@@ -79,19 +78,21 @@ def main2():
 
 
 def process2(args):
-    source = open(args.infile, 'r').read()
+    from io import open  # hack for python2.7
+    in_f = open(args.infile, 'r')
+    source = in_f.read().encode(encoding="utf-8")
     if args.conv:
         gml = tempfile.NamedTemporaryFile()
         gml_f = gml.name
         gml.close()
-        gml = open(gml_f, "w")
+        gml = open(gml_f, "wb")
         xml.sax.parseString(source, Fgd2Gml(gml))
         gml.close()
         converter = OgrConv(4612, 4326)
         converter.convert(gml_f, "GML", args.outfile, "GML")
         os.unlink(gml_f)
     else:
-        outfile = open(args.outfile, 'w')
+        outfile = open(args.outfile, 'wb')
         xml.sax.parseString(source, Fgd2Gml(outfile))
 # --------------------------------------------------
 # End of Python 2.7 compatibility code
