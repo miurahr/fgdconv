@@ -1,5 +1,5 @@
 # Include the data files
-recursive-include jpgisgml2gml/data *
+recursive-include fgdconv/data *
 
 # Include pyenv configuration
 include .python-version

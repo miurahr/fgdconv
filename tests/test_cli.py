@@ -23,7 +23,7 @@ from unittest import TestCase
 from io import open  # support python2.7
 import os
 
-from jpgisgml2gml import cli
+from fgdconv import cli
 
 
 class MockArgs:

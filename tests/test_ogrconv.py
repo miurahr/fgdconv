@@ -23,7 +23,7 @@ from unittest import TestCase
 from io import open  # support python2.7
 import os
 
-from jpgisgml2gml.ogrconv import OgrConv
+from fgdconv.ogrconv import OgrConv
 
 
 class OgrConvTestCase(TestCase):

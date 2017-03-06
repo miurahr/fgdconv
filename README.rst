@@ -23,16 +23,16 @@ Basic usage
 
 SYNOPSIS::
 
-    jpgisgml2gml [-c] <Input FGD-GML filename>  <Output GML filename>
+    fgdconv [-c] <Input FGD-GML filename>  <Output GML filename>
 
 Convert Fundamental Geospatial Data to GML.
 基盤地図情報基本項目XMLデータをGMLに変換する::
 
-    $ jpgisgml2gml FG-GML-533946-AdmArea-20140701-0001.xml AdmArea.gml
+    $ fgdconv FG-GML-533946-AdmArea-20140701-0001.xml AdmArea.gml
 
 -c オプションを指定すると、出力をWGS84の測量系に変換する。::
 
-    $ jpgisgml2gml -c FG-GML-533946-AdmArea-20140701-0001.xml AdmArea.gml
+    $ fgdconv -c FG-GML-533946-AdmArea-20140701-0001.xml AdmArea.gml
 
 
 License and copyright

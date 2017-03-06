@@ -28,9 +28,9 @@ extras = {
 
 
 setup(
-    name="jpgisgml2gml",
-    version="0.1.0",
-    description="JPGIS(GML) v4 to GML converter.",
+    name="fgdconv",
+    version="0.2.0",
+    description="FGD GML v4 converter.",
     author="Hiroshi Miura",
     author_email="miurahr@linux.com",
     license='MIT',
@@ -51,10 +51,10 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-    keywords="GIS GML geospatial KIBAN",
-    url="https://github.com/miurahr/jpgisv4togml",
+    keywords="FGD GIS GML geospatial KIBAN",
+    url="https://github.com/miurahr/fgdconv",
     packages=find_packages(exclude=['docs', 'tests']),
-    package_data={'jpgisgml2gml': ['data/FGD_GMLSchema.xsd']},
+    package_data={'fgdconv': ['data/FGD_GMLSchema.xsd']},
     install_requires=requires,
     extras_require=extras,
 
@@ -63,6 +63,6 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points="""
         [console_scripts]
-        jpgisgml2gml=jpgisgml2gml.cli:main
+        fgdconv=fgdconv.cli:main
     """,
 )

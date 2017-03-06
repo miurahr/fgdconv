@@ -25,7 +25,7 @@ import os
 import tempfile
 import xml
 
-from jpgisgml2gml import fgd2gml
+from fgdconv import fgd2gml
 
 
 class FgdConvTestCase(TestCase):
