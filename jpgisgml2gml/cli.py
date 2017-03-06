@@ -36,7 +36,7 @@ def main():
     parser.add_argument('-c', dest='conv', action='store_true',
                         help="Convert coordination from JGD2000 to WGS84")
     parser.add_argument('infile', type=argparse.FileType('r'),
-                        help='JPGIS(GML) v4 input file.')
+                        help='FGD JPGIS(GML) v4 input file.')
     parser.add_argument('outfile', help='Output GML file. If not specified')
     args = parser.parse_args()
     process(args)
@@ -71,7 +71,7 @@ def main2():
     parser.add_argument('-c', dest='conv', action='store_true',
                         help='Convert coordination from JGD2000 to WGS84')
     parser.add_argument('infile', type=commandline_arg,
-                        help='JPGIS(GML) v4 input file.')
+                        help='FGD JPGIS(GML) v4 input file.')
     parser.add_argument('outfile', type=commandline_arg,
                         help='Output GML file. If not specified')
     args = parser.parse_args()
