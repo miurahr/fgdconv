@@ -37,18 +37,25 @@ def main():
                         help="Convert coordination from JGD2000 to WGS84")
     parser.add_argument('infile', type=argparse.FileType('r'),
                         help='JPGIS(GML) v4 input file.')
-    parser.add_argument('outfile', type=argparse.FileType('wb'),
-                        help='Output GML file. If not specified')
+    parser.add_argument('outfile', help='Output GML file. If not specified')
     args = parser.parse_args()
+    process(args)
+
+
+def process(args):
     if args.conv:
-        gml_f = os.path.join(tempfile.mkdtemp(), 'fifo')
-        os.mkfifo(gml_f)
+        gml = tempfile.NamedTemporaryFile()
+        gml_f = gml.name
+        gml.close()
         gml = open(gml_f, "wb")
-        xml.sax.parse(args.infile, Fgd2Gml(gml))
         converter = OgrConv(4612, 4326)
+        xml.sax.parse(args.infile, Fgd2Gml(gml))
+        gml.close()
         converter.convert(gml_f, "GML", args.outfile, "GML")
+        os.unlink(gml_f)
     else:
-        xml.sax.parse(args.infile, Fgd2Gml(args.outfile))
+        outfile = open(args.outfile, "wb")
+        xml.sax.parse(args.infile, Fgd2Gml(outfile))
 
 
 # --------------------------------------------------
@@ -68,17 +75,23 @@ def main2():
     parser.add_argument('outfile', type=commandline_arg,
                         help='Output GML file. If not specified')
     args = parser.parse_args()
-    outfile = open(args.outfile, 'w')
+    process2(args)
+
+
+def process2(args):
     source = open(args.infile, 'r').read()
     if args.conv:
-        tmpdir = tempfile.mkdtemp()
-        gml_f = os.path.join(tmpdir, 'fifo')
-        os.mkfifo(gml_f)
-        gml = open(gml_f, "wb")
+        gml = tempfile.NamedTemporaryFile()
+        gml_f = gml.name
+        gml.close()
+        gml = open(gml_f, "w")
         xml.sax.parseString(source, Fgd2Gml(gml))
+        gml.close()
         converter = OgrConv(4612, 4326)
-        converter.convert(gml_f, "GML", outfile, "GML")
+        converter.convert(gml_f, "GML", args.outfile, "GML")
+        os.unlink(gml_f)
     else:
+        outfile = open(args.outfile, 'w')
         xml.sax.parseString(source, Fgd2Gml(outfile))
 # --------------------------------------------------
 # End of Python 2.7 compatibility code
