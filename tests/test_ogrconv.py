@@ -22,21 +22,48 @@
 from unittest import TestCase
 from io import open  # support python2.7
 import os
+import shutil
+import tempfile
 
 from fgdconv.ogrconv import OgrConv
+from tests.xmlutil import xml_compare_s
 
 
 class OgrConvTestCase(TestCase):
     def setUp(self):
         self.here = os.path.dirname(__file__)
+        self.out_d_base = tempfile.mkdtemp()
 
-    def test_convert(self):
-        out_f_name = os.path.join("/tmp", "BldA84_test.gml")
-        in_f_name = os.path.join(self.here, 'BldA.gml')
+    def tearDown(self):
+        shutil.rmtree(self.out_d_base)
+        pass
+
+    def test_constructor(self):
+        converter = OgrConv(4612, 4612)
+        assert converter is not None
+
+    def test_convert_gml(self):
+        # resources
+        in_f_name = os.path.join(self.here, 'data', 'BldA_jgd2000.gml')
+        out_f_name = os.path.join(self.out_d_base, "BldA84_test.gml")
+        # test body
         converter = OgrConv(4612, 4326)
         converter.convert(in_f_name, "GML", out_f_name, "GML")
-        out_f = open(out_f_name, 'r', encoding="utf-8")
-        out_text = out_f.read()
-        with open(os.path.join(self.here, "BldA84.gml"), "r") as f:
+        # assertion
+        with open(out_f_name, 'r', encoding="utf-8") as f:
+            out_text = f.read()
+        with open(os.path.join(self.here, "data",
+                               "BldA_wgs84.gml"), "r", encoding="utf-8") as f:
             expected = f.read()
-        assert out_text == expected
+        assert xml_compare_s(out_text, expected)
+
+
+    def test_convert_shapefile(self):
+        # resources
+        in_f_name = os.path.join(self.here, "data", 'BldA_jgd2000.gml')
+        test_f_name = "BldA84_test.shp"
+        out_d_name = os.path.join(self.out_d_base, "BldA84_test", )
+        # test body
+        converter = OgrConv(4612, 4326)
+        converter.convert(in_f_name, "GML", out_d_name, "ESRI Shapefile")
+        assert os.path.exists(os.path.join(out_d_name, test_f_name))

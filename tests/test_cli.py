@@ -22,55 +22,71 @@
 from unittest import TestCase
 from io import open  # support python2.7
 import os
+import tempfile
 
 from fgdconv import cli
 
 
+# Argparse mock
 class MockArgs:
     def __init__(self):
         self.conv = False
         self.infile = None
         self.outfile = None
+        self.format = "GML"
 
 
 class CliTestCase(TestCase):
     def setUp(self):
         self.here = os.path.dirname(__file__)
+        self.out_d_base = tempfile.mkdtemp()
 
     def test_main(self):
+        # set argparser argument mock
         args = MockArgs()
         args.conv = False
-        args.outfile = "/tmp/BldA84_test.gml"
+        args.outfile = os.path.join(self.out_d_base, "BldA84_test.gml")
+        args.format = "GML"
+
+        # test main process according to Python version
         try:
             unicode  # python2.7
-            args.infile = os.path.join(self.here, "BldA.xml")
+            args.infile = os.path.join(self.here, "data", "BldA.xml")
             cli.process2(args)
-        except NameError:
-            args.infile = open(os.path.join(self.here, "BldA.xml"), "r")
+        except NameError: # python3
+            args.infile = open(os.path.join(self.here, "data", "BldA_source.xml"), "r")
             cli.process(args)
+            args.infile.close()
 
-        out_f = open(args.outfile, mode="r", encoding="utf-8")
-        out_text = out_f.read()
-        with open(os.path.join(self.here, "BldA.gml"), mode="r",
+        # assertion
+        with open(args.outfile, mode="r", encoding="utf-8") as f:
+            out_text = f.read()
+        with open(os.path.join(self.here, "data", "BldA_jgd2000.gml"), mode="r",
                   encoding="utf-8") as f:
             expected = f.read()
         assert out_text == expected
 
     def test_conv(self):
+        # set argparser argument mock
         args = MockArgs()
         args.conv = True
-        args.outfile = "/tmp/BldA84_test.gml"
+        args.outfile = os.path.join(self.out_d_base,  "BldA84_test.gml")
+        args.format = "GML"
+
+        # test main process with conversion flag
         try:
             unicode  # python2.7
-            args.infile = os.path.join(self.here, "BldA.xml")
+            args.infile = os.path.join(self.here, "data", "BldA_source.xml")
             cli.process2(args)
         except NameError:
-            args.infile = open(os.path.join(self.here, "BldA.xml"), "r")
+            args.infile = open(os.path.join(self.here, "data", "BldA_source.xml"), "r")
             cli.process(args)
+            args.infile.close()
 
-        out_f = open(args.outfile, mode="r", encoding="utf-8")
-        out_text = out_f.read()
-        with open(os.path.join(self.here, "BldA84.gml"), mode="r",
+        # assertion
+        with open(args.outfile, mode="r", encoding="utf-8") as f:
+            out_text = f.read()
+        with open(os.path.join(self.here, "data", "BldA_wgs84.gml"), mode="r",
                   encoding="utf-8") as f:
             expected = f.read()
         assert out_text == expected

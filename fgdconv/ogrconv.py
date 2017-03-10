@@ -21,6 +21,27 @@
 
 from osgeo import ogr
 from osgeo import osr
+import os
+
+
+# only tested and confirmed formats are allowed
+def is_valid(driver, filename):
+    if driver == "ESRI Shapefile":
+        if os.path.exists(filename):
+            return False
+        else:
+            parent_d = os.path.dirname(filename)
+            if os.path.exists(parent_d):
+                return False
+            else:
+                return True
+    elif driver == "GML":
+        if os.path.exists(filename):
+            return False
+        else:
+            return True
+    else:
+        return False
 
 
 class OgrConv:
@@ -39,8 +60,18 @@ class OgrConv:
         output_driver = ogr.GetDriverByName(out_driver)
         in_data_set = input_driver.Open(in_filename)
         in_layer = in_data_set.GetLayer()
-        out_data_set = output_driver.CreateDataSource(out_filename)
-        out_layer = out_data_set.CreateLayer("FGD_GML4326",
+        if out_driver == "ESRI Shapefile":
+            basename = os.path.basename(out_filename)
+            out_data_set = output_driver\
+                .CreateDataSource(out_filename,
+                                  options=["SHAPE_ENCODING=UTF-8",
+                                           "ENCODING=UTF-8"])
+            out_layer = out_data_set.CreateLayer(basename,
+                                                 geom_type=ogr.wkbMultiPolygon)
+        else:
+            out_data_set = output_driver.CreateDataSource(out_filename)
+            basename = os.path.basename(out_filename)
+            out_layer = out_data_set.CreateLayer(basename,
                                              geom_type=ogr.wkbMultiPolygon)
         in_defn = in_layer.GetLayerDefn()
         for i in range(0, in_defn.GetFieldCount()):

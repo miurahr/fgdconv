@@ -21,6 +21,7 @@
 
 from unittest import TestCase
 from io import open  # support python2.7
+
 import os
 import tempfile
 import xml
@@ -34,7 +35,7 @@ class FgdConvTestCase(TestCase):
 
     def test_convert(self):
         out_f = tempfile.TemporaryFile()
-        in_f = open(os.path.join(self.here, 'BldA.xml'), "r")
+        in_f = open(os.path.join(self.here, 'data', 'BldA_source.xml'), "r")
         fgd_parser = fgd2gml.Fgd2Gml(out_f)
         try:
             unicode  # python2.7
@@ -43,8 +44,10 @@ class FgdConvTestCase(TestCase):
         except NameError:
             # python3
             xml.sax.parse(in_f, fgd_parser)
+        in_f.close()
         out_f.seek(0)
         out_text = out_f.read().decode("utf-8")
-        with open(os.path.join(self.here, "BldA.gml"), "r") as f:
+        out_f.close()
+        with open(os.path.join(self.here, 'data', "BldA_jgd2000.gml"), "r") as f:
             expected = f.read()
-        assert out_text == expected
+        assertXmlEqual(out_text, expected)

@@ -26,14 +26,21 @@ import sys
 import tempfile
 import xml
 
-from jpgisgml2gml.fgd2gml import Fgd2Gml
-from jpgisgml2gml.ogrconv import OgrConv
-
+from fgdconv.fgd2gml import Fgd2Gml
+from fgdconv.ogrconv import OgrConv
+from fgdconv.ogrconv import is_valid
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', dest='conv', action='store_true',
                         help="Convert coordination from JGD2000 to WGS84")
+    parser.add_argument('-f', dest='format', nargs='?',
+                        default="ESRI Shapefile",
+                        help="Output file format name" +
+                             "(Default is ESRI Shapefile)." +
+                             "Some possible values are:\n"+
+                             '    -f "ESRI Shapefile"' +
+                             '\n    -f "GML"')
     parser.add_argument('infile', type=argparse.FileType('r'),
                         help='FGD JPGIS(GML) v4 input file.')
     parser.add_argument('outfile', help='Output GML file. If not specified')
@@ -42,20 +49,42 @@ def main():
 
 
 def process(args):
+    format = "GML"  # default
+    if args.format is not None:
+        format = args.format
     if args.conv:
-        gml = tempfile.NamedTemporaryFile()
-        gml_f = gml.name
-        gml.close()
-        gml = open(gml_f, "wb")
-        converter = OgrConv(4612, 4326)
-        xml.sax.parse(args.infile, Fgd2Gml(gml))
-        gml.close()
-        converter.convert(gml_f, "GML", args.outfile, "GML")
-        os.unlink(gml_f)
+        if is_valid(format, args.outfile):
+            gml = tempfile.NamedTemporaryFile()
+            gml_f = gml.name
+            gml.close()
+            gml = open(gml_f, "wb")
+            xml.sax.parse(args.infile, Fgd2Gml(gml))
+            gml.close()
+            converter = OgrConv(4612, 4326)
+            converter.convert(gml_f, "GML", args.outfile, format)
+            os.unlink(gml_f)
+        else:
+            # raise error
+            pass
     else:
-        outfile = open(args.outfile, "wb")
-        xml.sax.parse(args.infile, Fgd2Gml(outfile))
-
+        if format == "GML":
+            outfile = open(args.outfile, "wb")
+            xml.sax.parse(args.infile, Fgd2Gml(outfile))
+            outfile.close()
+        else:
+            if is_valid(format, args.outfile):
+                converter = OgrConv(4612, 4612)
+                gml = tempfile.NamedTemporaryFile()
+                gml_f = gml.name
+                gml.close()
+                gml = open(gml_f, "wb")
+                xml.sax.parse(args.infile, Fgd2Gml(gml))
+                gml.close()
+                converter.convert(gml_f, args.outfile)
+                os.unlink(gml_f)
+            else:
+                # FIXME: raise error
+                pass
 
 # --------------------------------------------------
 # Python 2.7 compatibility code
@@ -69,6 +98,13 @@ def main2():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', dest='conv', action='store_true',
                         help='Convert coordination from JGD2000 to WGS84')
+    parser.add_argument('-f', dest='format', nargs='?',
+                        default="ESRI Shapefile",
+                        help="Output file format name." +
+                             "(Default is ESRI Shapefile)." +
+                             "Some possible values are:\n"+
+                             '    -f "ESRI Shapefile"' +
+                             '\n    -f "GML"')
     parser.add_argument('infile', type=commandline_arg,
                         help='FGD JPGIS(GML) v4 input file.')
     parser.add_argument('outfile', type=commandline_arg,
@@ -81,6 +117,7 @@ def process2(args):
     from io import open  # hack for python2.7
     in_f = open(args.infile, 'r')
     source = in_f.read().encode(encoding="utf-8")
+    in_f.close()
     if args.conv:
         gml = tempfile.NamedTemporaryFile()
         gml_f = gml.name
@@ -89,11 +126,12 @@ def process2(args):
         xml.sax.parseString(source, Fgd2Gml(gml))
         gml.close()
         converter = OgrConv(4612, 4326)
-        converter.convert(gml_f, "GML", args.outfile, "GML")
+        converter.convert(gml_f, "GML", args.outfile, args.format)
         os.unlink(gml_f)
     else:
         outfile = open(args.outfile, 'wb')
         xml.sax.parseString(source, Fgd2Gml(outfile))
+        outfile.close()
 # --------------------------------------------------
 # End of Python 2.7 compatibility code
 # --------------------------------------------------
