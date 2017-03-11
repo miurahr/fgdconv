@@ -54,7 +54,7 @@ setup(
     keywords="FGD GIS GML geospatial KIBAN",
     url="https://github.com/miurahr/fgdconv",
     packages=find_packages(exclude=['docs', 'tests']),
-    package_data={'fgdconv': ['data/FGD_GMLSchema.xsd']},
+    package_data={'fgdconv': ['sax/data/FGD_GMLSchema.xsd']},
     install_requires=requires,
     extras_require=extras,
 

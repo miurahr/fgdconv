@@ -30,11 +30,11 @@ from fgdconv.sax import fgd2gml_handler
 from tests.xmlutil import assertXmlEqual
 
 
-class FgdConvTestCase(TestCase):
+class Fgd2GmlHandlerTestCase(TestCase):
     def setUp(self):
         self.here = os.path.dirname(__file__)
 
-    def test_convert(self):
+    def test_sax_fgd2gml_handler(self):
         out_f = tempfile.TemporaryFile()
         in_f = open(os.path.join(self.here, 'data', 'BldA_source.xml'), "r")
         fgd_parser = fgd2gml_handler.Fgd2Gml(out_f)
