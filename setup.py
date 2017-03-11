@@ -21,7 +21,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 # Dependencies
-requires = ['lxml>=3.7.3']
+requires = ['lxml>=3.7.3', 'pygdal']
 extras = {
     'dev': ['virtualenv'],
     'test': ['check_manifest', 'coverage', 'flake8', 'nose', 'tox']}
@@ -29,7 +29,7 @@ extras = {
 
 setup(
     name="fgdconv",
-    version="0.2.0",
+    version="0.3.0",
     description="FGD GML v4 converter.",
     author="Hiroshi Miura",
     author_email="miurahr@linux.com",
@@ -63,6 +63,6 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points="""
         [console_scripts]
-        fgdconv=fgdconv.cli:main
+        fgdconv=fgdconv.fgd2ogr:main
     """,
 )

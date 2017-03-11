@@ -19,14 +19,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from unittest import TestCase
-from io import open  # support python2.7
-
 import os
 import tempfile
 import xml
+from io import open  # support python2.7
+from unittest import TestCase
 
-from fgdconv import fgd2gml
+from fgdconv.sax import fgd2gml_handler
+
+from tests.xmlutil import assertXmlEqual
 
 
 class FgdConvTestCase(TestCase):
@@ -36,7 +37,7 @@ class FgdConvTestCase(TestCase):
     def test_convert(self):
         out_f = tempfile.TemporaryFile()
         in_f = open(os.path.join(self.here, 'data', 'BldA_source.xml'), "r")
-        fgd_parser = fgd2gml.Fgd2Gml(out_f)
+        fgd_parser = fgd2gml_handler.Fgd2Gml(out_f)
         try:
             unicode  # python2.7
             in_buf = in_f.read().encode(encoding="utf-8")

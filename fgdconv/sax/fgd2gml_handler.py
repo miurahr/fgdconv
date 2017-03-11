@@ -25,14 +25,14 @@
 # modified to work with JPGIS(GML) V4.0 XSD by yoshida
 
 import os
-from xml.sax.handler import ContentHandler
-from xml.etree.ElementTree import Element
-from xml.etree.ElementTree import SubElement
-from xml.etree.ElementTree import ElementTree
-from itertools import islice
 from collections import deque
+from itertools import islice
+from xml.etree.ElementTree import Element
+from xml.etree.ElementTree import ElementTree
+from xml.etree.ElementTree import SubElement
+from xml.sax.handler import ContentHandler
 
-from . import fgdschema
+from fgdconv.sax import fgdschema
 
 
 class Fgd2Gml(ContentHandler):

@@ -6,10 +6,10 @@
     <SRSName>EPSG:4612</SRSName>
     <DatasetSpecificInfo>
       <FeatureCount>1</FeatureCount>
-      <ExtentXMin>139.70873</ExtentXMin>
-      <ExtentXMax>139.70882</ExtentXMax>
-      <ExtentYMin>35.58862</ExtentYMin>
-      <ExtentYMax>35.58869</ExtentYMax>
+      <ExtentXMin>139.40100</ExtentXMin>
+      <ExtentXMax>139.70100</ExtentXMax>
+      <ExtentYMin>35.58860</ExtentYMin>
+      <ExtentYMax>35.58880</ExtentYMax>
     </DatasetSpecificInfo>
     <PropertyDefn>
       <Name>id</Name>

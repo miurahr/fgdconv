@@ -5,7 +5,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns="http://fgd.gsi.go.jp/spec/2008/FGD_GMLSchema"
 	gml:id="Dataset1">
-  <gml:description>tテストデータ</gml:description>
+  <gml:description>テストデータ</gml:description>
   <gml:name>基盤地図情報テストデータ（GML版）</gml:name>
 <BldA gml:id="K17_1234567890_123456">
 <fid>20170303-12345-12345-s-12345</fid>
@@ -27,11 +27,11 @@
 <gml:segments>
 <gml:LineStringSegment>
 <gml:posList>
-35.588618 139.708789472
-35.5886725 139.708817722
-35.588693 139.708758306
-35.5886385 139.708730056
-35.588618 139.708789472
+35.5886 139.5010
+35.5887 139.7010
+35.5888 139.5010
+35.5887 139.4010
+35.5886 139.5010
 </gml:posList>
 </gml:LineStringSegment>
 </gml:segments>

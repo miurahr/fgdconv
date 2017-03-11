@@ -24,7 +24,9 @@ from io import open  # support python2.7
 import os
 import tempfile
 
-from fgdconv import cli
+from fgdconv import fgd2ogr
+
+from tests.xmlutil import assertXmlEqual
 
 
 # Argparse mock
@@ -36,7 +38,7 @@ class MockArgs:
         self.format = "GML"
 
 
-class CliTestCase(TestCase):
+class Fgd2OgrTestCase(TestCase):
     def setUp(self):
         self.here = os.path.dirname(__file__)
         self.out_d_base = tempfile.mkdtemp()
@@ -52,10 +54,10 @@ class CliTestCase(TestCase):
         try:
             unicode  # python2.7
             args.infile = os.path.join(self.here, "data", "BldA.xml")
-            cli.process2(args)
+            fgd2ogr.process2(args)
         except NameError: # python3
             args.infile = open(os.path.join(self.here, "data", "BldA_source.xml"), "r")
-            cli.process(args)
+            fgd2ogr.process(args)
             args.infile.close()
 
         # assertion
@@ -64,7 +66,7 @@ class CliTestCase(TestCase):
         with open(os.path.join(self.here, "data", "BldA_jgd2000.gml"), mode="r",
                   encoding="utf-8") as f:
             expected = f.read()
-        assert out_text == expected
+        assertXmlEqual(out_text, expected)
 
     def test_conv(self):
         # set argparser argument mock
@@ -77,10 +79,10 @@ class CliTestCase(TestCase):
         try:
             unicode  # python2.7
             args.infile = os.path.join(self.here, "data", "BldA_source.xml")
-            cli.process2(args)
+            fgd2ogr.process2(args)
         except NameError:
             args.infile = open(os.path.join(self.here, "data", "BldA_source.xml"), "r")
-            cli.process(args)
+            fgd2ogr.process(args)
             args.infile.close()
 
         # assertion
@@ -89,4 +91,4 @@ class CliTestCase(TestCase):
         with open(os.path.join(self.here, "data", "BldA_wgs84.gml"), mode="r",
                   encoding="utf-8") as f:
             expected = f.read()
-        assert out_text == expected
+        assertXmlEqual(out_text, expected)

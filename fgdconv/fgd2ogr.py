@@ -26,9 +26,10 @@ import sys
 import tempfile
 import xml
 
-from fgdconv.fgd2gml import Fgd2Gml
-from fgdconv.ogrconv import OgrConv
-from fgdconv.ogrconv import is_valid
+from fgdconv.ogr2ogr import Ogr2Ogr
+from fgdconv.ogr2ogr import is_valid
+from fgdconv.sax.fgd2gml_handler import Fgd2Gml
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -60,7 +61,7 @@ def process(args):
             gml = open(gml_f, "wb")
             xml.sax.parse(args.infile, Fgd2Gml(gml))
             gml.close()
-            converter = OgrConv(4612, 4326)
+            converter = Ogr2Ogr(4612, 4326)
             converter.convert(gml_f, "GML", args.outfile, format)
             os.unlink(gml_f)
         else:
@@ -73,7 +74,7 @@ def process(args):
             outfile.close()
         else:
             if is_valid(format, args.outfile):
-                converter = OgrConv(4612, 4612)
+                converter = Ogr2Ogr(4612, 4612)
                 gml = tempfile.NamedTemporaryFile()
                 gml_f = gml.name
                 gml.close()
@@ -125,7 +126,7 @@ def process2(args):
         gml = open(gml_f, "wb")
         xml.sax.parseString(source, Fgd2Gml(gml))
         gml.close()
-        converter = OgrConv(4612, 4326)
+        converter = Ogr2Ogr(4612, 4326)
         converter.convert(gml_f, "GML", args.outfile, args.format)
         os.unlink(gml_f)
     else:

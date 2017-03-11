@@ -25,11 +25,12 @@ import os
 import shutil
 import tempfile
 
-from fgdconv.ogrconv import OgrConv
-from tests.xmlutil import xml_compare_s
+from fgdconv.ogr2ogr import Ogr2Ogr
+
+from tests.xmlutil import assertXmlEqual
 
 
-class OgrConvTestCase(TestCase):
+class Ogr2OgrTestCase(TestCase):
     def setUp(self):
         self.here = os.path.dirname(__file__)
         self.out_d_base = tempfile.mkdtemp()
@@ -39,7 +40,7 @@ class OgrConvTestCase(TestCase):
         pass
 
     def test_constructor(self):
-        converter = OgrConv(4612, 4612)
+        converter = Ogr2Ogr(4612, 4612)
         assert converter is not None
 
     def test_convert_gml(self):
@@ -47,7 +48,7 @@ class OgrConvTestCase(TestCase):
         in_f_name = os.path.join(self.here, 'data', 'BldA_jgd2000.gml')
         out_f_name = os.path.join(self.out_d_base, "BldA84_test.gml")
         # test body
-        converter = OgrConv(4612, 4326)
+        converter = Ogr2Ogr(4612, 4326)
         converter.convert(in_f_name, "GML", out_f_name, "GML")
         # assertion
         with open(out_f_name, 'r', encoding="utf-8") as f:
@@ -55,7 +56,7 @@ class OgrConvTestCase(TestCase):
         with open(os.path.join(self.here, "data",
                                "BldA_wgs84.gml"), "r", encoding="utf-8") as f:
             expected = f.read()
-        assert xml_compare_s(out_text, expected)
+        assertXmlEqual(out_text, expected)
 
 
     def test_convert_shapefile(self):
@@ -64,6 +65,6 @@ class OgrConvTestCase(TestCase):
         test_f_name = "BldA84_test.shp"
         out_d_name = os.path.join(self.out_d_base, "BldA84_test", )
         # test body
-        converter = OgrConv(4612, 4326)
+        converter = Ogr2Ogr(4612, 4326)
         converter.convert(in_f_name, "GML", out_d_name, "ESRI Shapefile")
         assert os.path.exists(os.path.join(out_d_name, test_f_name))

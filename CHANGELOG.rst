@@ -9,12 +9,18 @@ All notable changes to this project will be documented in this file.
 
 Added
 -----
+* Support Shapefile output.
 
 Changed
 -------
+* Introduce fgdconv/sax package directory and
+  rename fgd2gml.py to fgd2gml_handler.py
+* Classname change from ogrconv to ogr2ogr.
+* Classname change from cli to fgd2ogr.
 
 Fixed
 -----
+* Make test data clean against FGD license.
 
 `v0.2.0`_
 =========

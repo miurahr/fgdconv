@@ -9,6 +9,11 @@ except ImportError:
     import elementtree.ElementTree as ET
 
 
+def assertXmlEqual(s1, s2):
+    if not xml_compare_s(s1, s2):
+        raise AssertionError
+
+
 def xml_compare_s(s1, s2, reporter=None):
     x1 = ET.fromstring(s1)
     x2 = ET.fromstring(s2)

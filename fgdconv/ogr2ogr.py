@@ -44,7 +44,7 @@ def is_valid(driver, filename):
         return False
 
 
-class OgrConv:
+class Ogr2Ogr:
     def __init__(self, inRef, outRef):
         in_spatial_ref = osr.SpatialReference()
         in_spatial_ref.ImportFromEPSG(inRef)
@@ -89,3 +89,6 @@ class OgrConv:
                                      in_feature.GetField(i))
             out_layer.CreateFeature(out_feature)
             in_feature = in_layer.GetNextFeature()
+
+if __name__ == '__main__':
+    pass
