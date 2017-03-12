@@ -56,6 +56,7 @@ License and copyright
     The MIT License (MIT)
 
     Copyright (c) 2017 Hiroshi Miura
+                  2015 Ian Bicking and FormEncode Contributors
                   2014 mizutuu
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
