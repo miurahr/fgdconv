@@ -21,13 +21,45 @@
 
 from unittest import TestCase
 from io import open  # support python2.7
+from osgeo import ogr
 import os
 import shutil
+import sys
 import tempfile
 
 from fgdconv.ogr2ogr import Ogr2Ogr
 
 from tests.xmlutil import assertXmlEqual
+
+
+def check_point_in_polygons(data_source, lon, lat):
+    res = False
+    line = ""
+    for iLayer in range(data_source.GetLayerCount()):
+        layer_in = data_source.GetLayer(iLayer)
+        if layer_in is None:
+            print("Layer is not exist Error")
+            return False
+        # create point geometry
+        pt = ogr.Geometry(ogr.wkbPoint)
+        pt.SetPoint_2D(0, lon, lat)
+        layer_in.SetSpatialFilter(pt)
+        # go over all the polygons in the layer see if one include the point
+        n_geom_field_count = layer_in.GetLayerDefn().GetGeomFieldCount()
+        if n_geom_field_count > 1:
+            line += " ("
+            for iGeom in range(n_geom_field_count):
+                if iGeom > 0:
+                    line += ", "
+                feat_in = layer_in.GetLayerDefn().GetGeomFieldDefn(iGeom)
+                line += "%s" % ogr.GeometryTypeToName(feat_in.GetType())
+                # roughly subsets features, instead of go over everything
+                ply = feat_in.GetGeometryRef()
+                if ply.Contains(pt):
+                    res = True
+            line += ")"
+    sys.stderr.write(line)
+    return res
 
 
 class Ogr2OgrTestCase(TestCase):
@@ -58,7 +90,6 @@ class Ogr2OgrTestCase(TestCase):
             expected = f.read()
         assertXmlEqual(out_text, expected)
 
-
     def test_convert_shapefile(self):
         # resources
         in_f_name = os.path.join(self.here, "data", 'BldA_jgd2000.gml')
@@ -67,4 +98,11 @@ class Ogr2OgrTestCase(TestCase):
         # test body
         converter = Ogr2Ogr(4612, 4326)
         converter.convert(in_f_name, "GML", out_d_name, "ESRI Shapefile")
-        assert os.path.exists(os.path.join(out_d_name, test_f_name))
+        outshp = os.path.join(out_d_name, test_f_name)
+        assert os.path.exists(outshp)
+
+        drv = ogr.GetDriverByName('ESRI Shapefile')
+        data_source = drv.Open(outshp)
+        lon = 139.718509733734379
+        lat = 35.695217139713343
+        assert check_point_in_polygons(data_source, lon, lat)

@@ -39,7 +39,7 @@ def main():
                         default="ESRI Shapefile",
                         help="Output file format name" +
                              "(Default is ESRI Shapefile)." +
-                             "Some possible values are:\n"+
+                             "Some possible values are:\n" +
                              '    -f "ESRI Shapefile"' +
                              '\n    -f "GML"')
     parser.add_argument('infile', type=argparse.FileType('r'),
@@ -87,6 +87,7 @@ def process(args):
                 # FIXME: raise error
                 pass
 
+
 # --------------------------------------------------
 # Python 2.7 compatibility code
 # --------------------------------------------------
@@ -103,7 +104,7 @@ def main2():
                         default="ESRI Shapefile",
                         help="Output file format name." +
                              "(Default is ESRI Shapefile)." +
-                             "Some possible values are:\n"+
+                             "Some possible values are:\n" +
                              '    -f "ESRI Shapefile"' +
                              '\n    -f "GML"')
     parser.add_argument('infile', type=commandline_arg,

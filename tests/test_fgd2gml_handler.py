@@ -49,6 +49,7 @@ class Fgd2GmlHandlerTestCase(TestCase):
         out_f.seek(0)
         out_text = out_f.read().decode("utf-8")
         out_f.close()
-        with open(os.path.join(self.here, 'data', "BldA_jgd2000.gml"), "r") as f:
+        with open(os.path.join(self.here, 'data', "BldA_jgd2000.gml"),
+                  "r") as f:
             expected = f.read()
         assertXmlEqual(out_text, expected)

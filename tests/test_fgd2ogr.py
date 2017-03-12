@@ -55,16 +55,17 @@ class Fgd2OgrTestCase(TestCase):
             unicode  # python2.7
             args.infile = os.path.join(self.here, "data", "BldA.xml")
             fgd2ogr.process2(args)
-        except NameError: # python3
-            args.infile = open(os.path.join(self.here, "data", "BldA_source.xml"), "r")
+        except NameError:  # python3
+            args.infile = open(os.path.join(self.here, "data",
+                                            "BldA_source.xml"), "r")
             fgd2ogr.process(args)
             args.infile.close()
 
         # assertion
         with open(args.outfile, mode="r", encoding="utf-8") as f:
             out_text = f.read()
-        with open(os.path.join(self.here, "data", "BldA_jgd2000.gml"), mode="r",
-                  encoding="utf-8") as f:
+        with open(os.path.join(self.here, "data", "BldA_jgd2000.gml"),
+                  mode="r", encoding="utf-8") as f:
             expected = f.read()
         assertXmlEqual(out_text, expected)
 
@@ -81,14 +82,15 @@ class Fgd2OgrTestCase(TestCase):
             args.infile = os.path.join(self.here, "data", "BldA_source.xml")
             fgd2ogr.process2(args)
         except NameError:
-            args.infile = open(os.path.join(self.here, "data", "BldA_source.xml"), "r")
+            args.infile = open(os.path.join(self.here, "data",
+                                            "BldA_source.xml"), "r")
             fgd2ogr.process(args)
             args.infile.close()
 
         # assertion
         with open(args.outfile, mode="r", encoding="utf-8") as f:
             out_text = f.read()
-        with open(os.path.join(self.here, "data", "BldA_wgs84.gml"), mode="r",
-                  encoding="utf-8") as f:
+        with open(os.path.join(self.here, "data", "BldA_wgs84.gml"),
+                  mode="r", encoding="utf-8") as f:
             expected = f.read()
         assertXmlEqual(out_text, expected)
