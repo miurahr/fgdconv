@@ -70,9 +70,9 @@ class Ogr2Ogr:
                                                  geom_type=ogr.wkbMultiPolygon)
         else:
             out_data_set = output_driver.CreateDataSource(out_filename)
-            basename = os.path.basename(out_filename)
+            basename = os.path.splitext(os.path.basename(out_filename))[0]
             out_layer = out_data_set.CreateLayer(basename,
-                                             geom_type=ogr.wkbMultiPolygon)
+                                                 geom_type=ogr.wkbMultiPolygon)
         in_defn = in_layer.GetLayerDefn()
         for i in range(0, in_defn.GetFieldCount()):
             field_defn = in_defn.GetFieldDefn(i)
