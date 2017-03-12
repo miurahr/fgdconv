@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 
 Added
 -----
-* Support Shapefile output.
+* Support Shapefile output and defualt format is GML.
 
 Changed
 -------
