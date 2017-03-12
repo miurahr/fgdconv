@@ -9,6 +9,19 @@ All notable changes to this project will be documented in this file.
 
 Added
 -----
+
+Changed
+-------
+
+Fixed
+-----
+
+
+`v0.3.0`_
+=========
+
+Added
+-----
 * Support Shapefile output and defualt format is GML.
 
 Changed
@@ -21,6 +34,7 @@ Changed
 Fixed
 -----
 * Make test data clean against FGD license.
+
 
 `v0.2.0`_
 =========
@@ -63,6 +77,7 @@ v0.0.1
 
 * Original initial work.
 
-.. _Unreleased: https://github.com/miurahr/fgdconv/compare/v0.2.0...HEAD
+.. _Unreleased: https://github.com/miurahr/fgdconv/compare/v0.3.0...HEAD
+.. _v0.3.0: https://github.com/miurahr/fgdconv/compare/v0.2.0...v0.3.0
 .. _v0.2.0: https://github.com/miurahr/fgdconv/compare/v0.1.0...v0.2.0
 .. _v0.1.0: https://github.com/miurahr/fgdconv/compare/v0.0.1...v0.1.0
