@@ -36,7 +36,7 @@ def main():
     parser.add_argument('-c', dest='conv', action='store_true',
                         help="Convert coordination from JGD2000 to WGS84")
     parser.add_argument('-f', dest='format', nargs='?',
-                        default="ESRI Shapefile",
+                        default="GML",
                         help="Output file format name" +
                              "(Default is ESRI Shapefile)." +
                              "Some possible values are:\n" +
@@ -46,15 +46,17 @@ def main():
                         help='FGD JPGIS(GML) v4 input file.')
     parser.add_argument('outfile', help='Output GML file. If not specified')
     args = parser.parse_args()
-    process(args)
+    try:
+        process(args)
+    except ValueError as err:
+        print(err.args)
+        return 1
+    return 0
 
 
 def process(args):
-    format = "GML"  # default
-    if args.format is not None:
-        format = args.format
     if args.conv:
-        if is_valid(format, args.outfile):
+        if is_valid(args.format, args.outfile):
             gml = tempfile.NamedTemporaryFile()
             gml_f = gml.name
             gml.close()
@@ -62,18 +64,17 @@ def process(args):
             xml.sax.parse(args.infile, Fgd2Gml(gml))
             gml.close()
             converter = Ogr2Ogr(4612, 4326)
-            converter.convert(gml_f, "GML", args.outfile, format)
+            converter.convert(gml_f, "GML", args.outfile, args.format)
             os.unlink(gml_f)
         else:
-            # raise error
-            pass
+            raise ValueError("Format is invalid")
     else:
-        if format == "GML":
+        if args.format == "GML":
             outfile = open(args.outfile, "wb")
             xml.sax.parse(args.infile, Fgd2Gml(outfile))
             outfile.close()
         else:
-            if is_valid(format, args.outfile):
+            if is_valid(args.format, args.outfile):
                 converter = Ogr2Ogr(4612, 4612)
                 gml = tempfile.NamedTemporaryFile()
                 gml_f = gml.name
@@ -81,11 +82,10 @@ def process(args):
                 gml = open(gml_f, "wb")
                 xml.sax.parse(args.infile, Fgd2Gml(gml))
                 gml.close()
-                converter.convert(gml_f, args.outfile)
+                converter.convert(gml_f, "GML", args.outfile, args.format)
                 os.unlink(gml_f)
             else:
-                # FIXME: raise error
-                pass
+                raise ValueError("Format is invalid")
 
 
 # --------------------------------------------------
@@ -101,7 +101,7 @@ def main2():
     parser.add_argument('-c', dest='conv', action='store_true',
                         help='Convert coordination from JGD2000 to WGS84')
     parser.add_argument('-f', dest='format', nargs='?',
-                        default="ESRI Shapefile",
+                        default="GML",
                         help="Output file format name." +
                              "(Default is ESRI Shapefile)." +
                              "Some possible values are:\n" +
@@ -112,8 +112,12 @@ def main2():
     parser.add_argument('outfile', type=commandline_arg,
                         help='Output GML file. If not specified')
     args = parser.parse_args()
-    process2(args)
-
+    try:
+        process2(args)
+    except ValueError as err:
+        print(err.args)
+        return 1
+    return 0
 
 def process2(args):
     from io import open  # hack for python2.7
@@ -121,19 +125,36 @@ def process2(args):
     source = in_f.read().encode(encoding="utf-8")
     in_f.close()
     if args.conv:
-        gml = tempfile.NamedTemporaryFile()
-        gml_f = gml.name
-        gml.close()
-        gml = open(gml_f, "wb")
-        xml.sax.parseString(source, Fgd2Gml(gml))
-        gml.close()
-        converter = Ogr2Ogr(4612, 4326)
-        converter.convert(gml_f, "GML", args.outfile, args.format)
-        os.unlink(gml_f)
+        if is_valid(args.format, args.outfile):
+            gml = tempfile.NamedTemporaryFile()
+            gml_f = gml.name
+            gml.close()
+            gml = open(gml_f, "wb")
+            xml.sax.parseString(source, Fgd2Gml(gml))
+            gml.close()
+            converter = Ogr2Ogr(4612, 4326)
+            converter.convert(gml_f, "GML", args.outfile, args.format)
+            os.unlink(gml_f)
+        else:
+            raise ValueError("Format is invalid")
     else:
-        outfile = open(args.outfile, 'wb')
-        xml.sax.parseString(source, Fgd2Gml(outfile))
-        outfile.close()
+        if args.format == "GML":
+            outfile = open(args.outfile, 'wb')
+            xml.sax.parseString(source, Fgd2Gml(outfile))
+            outfile.close()
+        else:
+            if is_valid(args.format, args.outfile):
+                converter = Ogr2Ogr(4612, 4612)
+                gml = tempfile.NamedTemporaryFile()
+                gml_f = gml.name
+                gml.close()
+                gml = open(gml_f, "wb")
+                xml.sax.parse(args.infile, Fgd2Gml(gml))
+                gml.close()
+                converter.convert(gml_f, "GML", args.outfile, args.format)
+                os.unlink(gml_f)
+            else:
+                raise ValueError("Format is invalid")
 # --------------------------------------------------
 # End of Python 2.7 compatibility code
 # --------------------------------------------------
