@@ -1,7 +1,7 @@
 Installation
 ============
 
-JpGisGml2Gml is distributed in several package format.
+Fgdconv is distributed in several package format.
 Here is a list of package formats.
 
 * source tar.gz distribution
