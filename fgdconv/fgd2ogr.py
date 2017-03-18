@@ -22,13 +22,12 @@
 
 import argparse
 import os
-import sys
-import tempfile
 import xml
 
 from fgdconv.ogr2ogr import Ogr2Ogr
 from fgdconv.ogr2ogr import is_valid
-from fgdconv.sax.fgd2gml_handler import Fgd2Gml
+from fgdconv.sax.fgd2gml_handler import Fgd2GmlHandler
+import fgdconv.utils
 
 
 def main():
@@ -57,12 +56,9 @@ def main():
 def process(args):
     if args.conv:
         if is_valid(args.format, args.outfile):
-            gml = tempfile.NamedTemporaryFile()
-            gml_f = gml.name
-            gml.close()
-            gml = open(gml_f, "wb")
-            xml.sax.parse(args.infile, Fgd2Gml(gml))
-            gml.close()
+            gml_f = fgdconv.utils.get_temp_filename()
+            with Fgd2GmlHandler(gml_f) as h:
+                xml.sax.parse(args.infile, h)
             converter = Ogr2Ogr(4612, 4326)
             converter.convert(gml_f, "GML", args.outfile, args.format)
             os.unlink(gml_f)
@@ -70,18 +66,14 @@ def process(args):
             raise ValueError("Format is invalid")
     else:
         if args.format == "GML":
-            outfile = open(args.outfile, "wb")
-            xml.sax.parse(args.infile, Fgd2Gml(outfile))
-            outfile.close()
+            with Fgd2GmlHandler(args.outfile) as h:
+                xml.sax.parse(args.infile, h)
         else:
             if is_valid(args.format, args.outfile):
                 converter = Ogr2Ogr(4612, 4612)
-                gml = tempfile.NamedTemporaryFile()
-                gml_f = gml.name
-                gml.close()
-                gml = open(gml_f, "wb")
-                xml.sax.parse(args.infile, Fgd2Gml(gml))
-                gml.close()
+                gml_f = fgdconv.utils.get_temp_filename()
+                with Fgd2GmlHandler(gml_f) as h:
+                    xml.sax.parse(args.infile, h)
                 converter.convert(gml_f, "GML", args.outfile, args.format)
                 os.unlink(gml_f)
             else:
@@ -91,11 +83,6 @@ def process(args):
 # --------------------------------------------------
 # Python 2.7 compatibility code
 # --------------------------------------------------
-def commandline_arg(bytestring):
-    unicode_string = bytestring.decode(sys.getfilesystemencoding())
-    return unicode_string
-
-
 def main2():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', dest='conv', action='store_true',
@@ -107,9 +94,9 @@ def main2():
                              "Some possible values are:\n" +
                              '    -f "ESRI Shapefile"' +
                              '\n    -f "GML"')
-    parser.add_argument('infile', type=commandline_arg,
+    parser.add_argument('infile', type=fgdconv.utils.commandline_arg,
                         help='FGD JPGIS(GML) v4 input file.')
-    parser.add_argument('outfile', type=commandline_arg,
+    parser.add_argument('outfile', type=fgdconv.utils.commandline_arg,
                         help='Output GML file. If not specified')
     args = parser.parse_args()
     try:
@@ -119,19 +106,14 @@ def main2():
         return 1
     return 0
 
+
 def process2(args):
     from io import open  # hack for python2.7
-    in_f = open(args.infile, 'r')
-    source = in_f.read().encode(encoding="utf-8")
-    in_f.close()
     if args.conv:
         if is_valid(args.format, args.outfile):
-            gml = tempfile.NamedTemporaryFile()
-            gml_f = gml.name
-            gml.close()
-            gml = open(gml_f, "wb")
-            xml.sax.parseString(source, Fgd2Gml(gml))
-            gml.close()
+            gml_f = fgdconv.utils.get_temp_filename()
+            with Fgd2GmlHandler(gml_f) as h:
+                xml.sax.parse(args.infile, h)
             converter = Ogr2Ogr(4612, 4326)
             converter.convert(gml_f, "GML", args.outfile, args.format)
             os.unlink(gml_f)
@@ -139,18 +121,17 @@ def process2(args):
             raise ValueError("Format is invalid")
     else:
         if args.format == "GML":
-            outfile = open(args.outfile, 'wb')
-            xml.sax.parseString(source, Fgd2Gml(outfile))
-            outfile.close()
+            with open(args.outfile, 'wb') as outfile:
+                with open(args.infile, 'r') as in_f:
+                    with Fgd2GmlHandler(outfile) as h:
+                        source = in_f.read().encode(encoding="utf-8")
+                        xml.sax.parseString(source, h)
         else:
             if is_valid(args.format, args.outfile):
                 converter = Ogr2Ogr(4612, 4612)
-                gml = tempfile.NamedTemporaryFile()
-                gml_f = gml.name
-                gml.close()
-                gml = open(gml_f, "wb")
-                xml.sax.parse(args.infile, Fgd2Gml(gml))
-                gml.close()
+                gml_f = fgdconv.utils.get_temp_filename()
+                with Fgd2GmlHandler(gml_f) as h:
+                    xml.sax.parse(args.infile, h)
                 converter.convert(gml_f, "GML", args.outfile, args.format)
                 os.unlink(gml_f)
             else:

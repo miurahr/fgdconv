@@ -36,14 +36,19 @@ except ImportError:
 
 
 def assertXmlEqual(s1, s2):
-    if not xml_compare_s(s1, s2):
-        raise AssertionError
+    # file like object
+    if hasattr(s1, 'read'):
+        x1 = ET.parse(s1).getroot()
+        x2 = ET.parse(s2).getroot()
+        if not xml_compare(x1, x2):
+            raise AssertionError
+        return
 
-
-def xml_compare_s(s1, s2, reporter=None):
+    # str/unicode
     x1 = ET.fromstring(s1)
     x2 = ET.fromstring(s2)
-    return xml_compare(x1, x2, reporter)
+    if not xml_compare(x1, x2):
+        raise AssertionError
 
 
 def xml_compare(x1, x2, reporter=None):

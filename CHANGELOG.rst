@@ -12,6 +12,10 @@ Added
 
 Changed
 -------
+- Update FGD schema to V4.1
+- Sax handler constructor accept an output file path instead of file object.
+- Refactoring main method
+- Refactoring test
 
 Fixed
 -----

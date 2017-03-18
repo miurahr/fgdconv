@@ -23,6 +23,7 @@
 # based on a script from
 #     http://wiki.openstreetmap.org/wiki/Converting_OSM_to_GML
 # modified to work with JPGIS(GML) V4.0 XSD by yoshida
+# Work with JPGIS FGD GML V4.1 XSD
 
 import os
 from collections import deque
@@ -35,29 +36,34 @@ from xml.sax.handler import ContentHandler
 from fgdconv.sax import fgdschema
 
 
-class Fgd2Gml(ContentHandler):
-    def __init__(self, file):
+class Fgd2GmlHandler(ContentHandler):
+    def __init__(self, file_path):
         ContentHandler.__init__(self)
-        self.fh = file
-        self.xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                    'data/FGD_GMLSchema.xsd')
+        self.fh = open(file_path, 'wb')
+        self.xsdFile = open(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                                    'data/FGD_GMLSchema.xsd'))
+        self.schema = fgdschema.FgdSchema(self.xsdFile)
         self.featureId = None
-        self.featureTag = None
+        self.featureTag = None  # ex) 'WStrL', 'Cstline', etc...
         self.nodeElements = None
         self.currentStack = []
         self.current = None
         self.nodes = []
         self.tags = None
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.schema = None
+        self.xsdFile.close()
+        self.fh.close()
+
     def get_fgd_tags(self):
-        with open(self.xsdFile) as f:
-            schema = fgdschema.FgdSchema(f)
-            return schema.get_fgd_element_names()
+        return self.schema.get_fgd_element_names()
 
     def get_fgd_node_elements(self, name):
-        with open(self.xsdFile) as f:
-            schema = fgdschema.FgdSchema(f)
-            self.nodeElements = schema.get_fgd_elements(name)
+        self.nodeElements = self.schema.get_fgd_elements(name)
 
     def get_fgd_node_element(self, name):
         for element in self.nodeElements:
@@ -94,7 +100,7 @@ class Fgd2Gml(ContentHandler):
     def startDocument(self):
         self.tags = self.get_fgd_tags()
         self.nodeElements = None
-        self.featureTag = None  # ex) 'WStrL', 'Cstline', etc...
+        self.featureTag = None
         self.featureId = None
         self.currentStack = []
         self.current = None

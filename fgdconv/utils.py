@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2017 Hiroshi Miura
 #
@@ -19,35 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import xml
-from io import open  # support python2.7
-from unittest import TestCase
-
-from fgdconv.sax import fgd2gml_handler
-import fgdconv.utils
-
-from tests.xmlutil import assertXmlEqual
+import sys
+import tempfile
 
 
-class Fgd2GmlHandlerTestCase(TestCase):
-    def setUp(self):
-        self.here = os.path.dirname(__file__)
+def get_temp_filename():
+    gml = tempfile.NamedTemporaryFile()
+    gml_f = gml.name
+    gml.close()
+    return gml_f
 
-    def test_sax_fgd2gml_handler(self):
-        out_f = fgdconv.utils.get_temp_filename()
-        # run converter
-        with open(os.path.join(self.here, 'data', 'BldA_source.xml'), "r") as in_f:
-            with fgd2gml_handler.Fgd2GmlHandler(out_f) as fgd_parser:
-                try:
-                    unicode  # python2.7
-                    in_buf = in_f.read().encode(encoding="utf-8")
-                    xml.sax.parseString(in_buf, fgd_parser)
-                except NameError:
-                    # python3
-                    xml.sax.parse(in_f, fgd_parser)
-        # check result
-        with open(out_f, "r") as f1:
-            with open(os.path.join(self.here, 'data', "BldA_jgd2000.gml"),
-                      "r") as f2:
-                assertXmlEqual(f1, f2)
+
+def commandline_arg(byte_string):
+    unicode_string = byte_string.decode(sys.getfilesystemencoding())
+    return unicode_string
