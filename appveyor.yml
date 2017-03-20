@@ -1,16 +1,15 @@
-platform:
-- x64
-- x86
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python27-x64"
+    - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python36-x64"
 
 shallow_clone: true
 
 install:
-  - if "%platform%" == "x86" SET PATH=c:\python27;%PATH%
-  - if "%platform%" == "x64" SET PATH=c:\Python27-x64;%PATH%
-  - if "%platform%" == "x86" call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat"
-  - if "%platform%" == "x64" "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64
-  - if "%platform%" == "x64" call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
-  - if "%platform%" == "x64" set WIN64_ARG="WIN64=YES"
   - if "%platform%" == "x86" SET SDK=release-1800
   - if "%platform%" == "x64" SET SDK=release-1800-x64
   - set SDK_ZIP=%SDK%-dev.zip
@@ -26,17 +25,21 @@ install:
   - set SDK_INC=%CD%\sdk\%SDK%\include
   - set SDK_LIB=%CD%\sdk\%SDK%\lib
   - set SDK_BIN=%CD%\sdk\%SDK%\bin
+  - set PATH=%SDK_BIN%;%PATH%
+  - "%PYTHON%\\python.exe -m pip install wheel"
+  - "%PYTHON%\\python.exe -m pip install tox"
 
-
-build_script:
-  - echo build_script
+build: off
 
 test_script:
   - echo test_script
-  - set SDK_PREFIX=%CD%\sdk\%SDK%
-  - set SDK_BIN=%CD%\sdk\%SDK%\bin
-  - SET PATH=%SDK_BIN%;%PATH%
-  - tox
+  - "%PYTHON%\\python.exe -m tox"
+
+after_test:
+  - "%PYTHON%\\python.exe setup.py bdist_wheel"
+
+artifacts:
+  - path: dist\*
 
 deploy: off
 
