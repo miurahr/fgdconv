@@ -26,9 +26,6 @@ install:
   - set SDK_INC=%CD%\sdk\%SDK%\include
   - set SDK_LIB=%CD%\sdk\%SDK%\lib
   - set SDK_BIN=%CD%\sdk\%SDK%\bin
-  - pip install -rrequirements.txt -rrequirements-dev.txt
-  - python setup.py build
-  - python setup.py install
 
 
 build_script:
@@ -38,10 +35,8 @@ test_script:
   - echo test_script
   - set SDK_PREFIX=%CD%\sdk\%SDK%
   - set SDK_BIN=%CD%\sdk\%SDK%\bin
-  - SET PATH=%CD%\gdal;%CD%\gdal\apps;%SDK_BIN%;%PATH%
-  - SET GDAL_DATA=%CD%\gdal\data
-  - SET PROJ_LIB=%SDK_BIN%\proj\SHARE
-  - python setup.py test
+  - SET PATH=%SDK_BIN%;%PATH%
+  - tox
 
 deploy: off
 
