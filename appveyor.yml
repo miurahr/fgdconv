@@ -1,8 +1,6 @@
 environment:
   matrix:
-    - PYTHON: "C:\\Python27"
-    - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python36"
+    # Only 64bit environment tested.
     - PYTHON: "C:\\Python27-x64"
     - PYTHON: "C:\\Python35-x64"
     - PYTHON: "C:\\Python36-x64"
@@ -10,8 +8,7 @@ environment:
 shallow_clone: true
 
 install:
-  - if "%platform%" == "x86" SET SDK=release-1800
-  - if "%platform%" == "x64" SET SDK=release-1800-x64
+  - SET SDK=release-1800-x64
   - set SDK_ZIP=%SDK%-dev.zip
   - set SDK_URL=http://download.gisinternals.com/sdk/downloads/%SDK_ZIP%
   - echo "%SDK_ZIP%"
