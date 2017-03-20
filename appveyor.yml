@@ -26,6 +26,7 @@ install:
   - set SDK_INC=%CD%\sdk\%SDK%\include
   - set SDK_LIB=%CD%\sdk\%SDK%\lib
   - set SDK_BIN=%CD%\sdk\%SDK%\bin
+  - pip install -rrequirements.txt -rrequirements-dev.txt
   - python setup.py build
   - python setup.py install
 
