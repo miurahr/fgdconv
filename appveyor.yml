@@ -22,17 +22,18 @@ install:
   - set SDK_LIB=%CD%\sdk\%SDK%\lib
   - set SDK_BIN=%CD%\sdk\%SDK%\bin
   - set PATH=%SDK_BIN%;%PATH%
-  - "C:\\python36-x64\\python.exe -m pip install wheel"
-  - "C:\\python36-x64\\python.exe -m pip install tox"
+  - set GDAL_DATA=%SDK_BIN%\gdal-data
+  - 'python -m pip install wheel'
+  - 'python -m pip install tox'
 
 build: off
 
 test_script:
   - echo test_script
-  - "C:\\Python36-x64\\python.exe -m tox"
+  - 'python -m tox'
 
 after_test:
-  - "C:\\Python36-x64\\python.exe setup.py bdist_wheel"
+  - 'python setup.py bdist_wheel'
 
 artifacts:
   - path: dist\*
