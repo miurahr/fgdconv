@@ -1,0 +1,46 @@
+platform:
+- x64
+- x86
+
+shallow_clone: true
+
+install:
+  - if "%platform%" == "x86" SET PATH=c:\python27;%PATH%
+  - if "%platform%" == "x64" SET PATH=c:\Python27-x64;%PATH%
+  - if "%platform%" == "x86" call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat"
+  - if "%platform%" == "x64" "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64
+  - if "%platform%" == "x64" call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
+  - if "%platform%" == "x64" set WIN64_ARG="WIN64=YES"
+  - if "%platform%" == "x86" SET SDK=release-1800
+  - if "%platform%" == "x64" SET SDK=release-1800-x64
+  - set SDK_ZIP=%SDK%-dev.zip
+  - set SDK_URL=http://download.gisinternals.com/sdk/downloads/%SDK_ZIP%
+  - echo "%SDK_ZIP%"
+  - echo "%SDK_URL%"
+  - mkdir sdk
+  - cd sdk
+  - appveyor DownloadFile "%SDK_URL%"
+  - 7z x "%SDK_ZIP%" > nul
+  - cd ..
+  - set SDK_PREFIX=%CD%\sdk\%SDK%
+  - set SDK_INC=%CD%\sdk\%SDK%\include
+  - set SDK_LIB=%CD%\sdk\%SDK%\lib
+  - set SDK_BIN=%CD%\sdk\%SDK%\bin
+  - python setup.py build
+  - python setup.py install
+
+
+build_script:
+  - echo build_script
+
+test_script:
+  - echo test_script
+  - set SDK_PREFIX=%CD%\sdk\%SDK%
+  - set SDK_BIN=%CD%\sdk\%SDK%\bin
+  - SET PATH=%CD%\gdal;%CD%\gdal\apps;%SDK_BIN%;%PATH%
+  - SET GDAL_DATA=%CD%\gdal\data
+  - SET PROJ_LIB=%SDK_BIN%\proj\SHARE
+  - python setup.py test
+
+deploy: off
+
