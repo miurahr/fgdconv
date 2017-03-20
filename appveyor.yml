@@ -1,14 +1,13 @@
 environment:
   matrix:
-    # Only 64bit environment tested.
-    - PYTHON: "C:\\Python27-x64"
-    - PYTHON: "C:\\Python35-x64"
-    - PYTHON: "C:\\Python36-x64"
+    - TOXENV: py27
+    - TOXENV: py35
+    - TOXENV: py36
 
 shallow_clone: true
 
 install:
-  - SET SDK=release-1800-x64
+  - set SDK=release-1800-x64
   - set SDK_ZIP=%SDK%-dev.zip
   - set SDK_URL=http://download.gisinternals.com/sdk/downloads/%SDK_ZIP%
   - echo "%SDK_ZIP%"
@@ -23,17 +22,17 @@ install:
   - set SDK_LIB=%CD%\sdk\%SDK%\lib
   - set SDK_BIN=%CD%\sdk\%SDK%\bin
   - set PATH=%SDK_BIN%;%PATH%
-  - "%PYTHON%\\python.exe -m pip install wheel"
-  - "%PYTHON%\\python.exe -m pip install tox"
+  - "C:\\python36-x64\\python.exe -m pip install wheel"
+  - "C:\\python36-x64\\python.exe -m pip install tox"
 
 build: off
 
 test_script:
   - echo test_script
-  - "%PYTHON%\\python.exe -m tox"
+  - "C:\\Python36-x64\\python.exe -m tox"
 
 after_test:
-  - "%PYTHON%\\python.exe setup.py bdist_wheel"
+  - "C:\\Python36-x64\\python.exe setup.py bdist_wheel"
 
 artifacts:
   - path: dist\*
