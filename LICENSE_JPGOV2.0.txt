@@ -1,0 +1,85 @@
+============================================================================
+Geospatial Information Authority of Japan Website Terms of Use (Version 2.0)
+============================================================================
+
+1. Using the content on this website
+=====================================
+
+  Information made available on this website (hereinafter referred to as “Content”) may be freely used, copied, publicly transmitted, translated or otherwise modified on condition that the user complies with provisions 1) to 7) below. Commercial use of Content is also permitted.
+  Note, however, that numerical data and data in Simple tables, graphs, and so forth are not subject to copyright. Accordingly the terms of use does not apply to such data, and said data may be used freely.
+  Use of the Content constitutes agreement by the user with these terms of use for using the Content described herein (hereinafter referred to as “Terms of Use”).
+
+
+1) Source citation
+------------------
+ a. The user must cite the source when using the Content. Sources should be cited in the following manner:
+
+　　    (Examples of source citation)
+          Source: Geospatial Information Authority of Japan website (URL of the relevant page)
+ * If you cite Urban Area Active Fault Maps, you must specify surveyor’s name and material number of Technical Materials of the Geospatial Information Authority of Japan.
+ * When using Content in an academic paper or book, and so forth, you must give source citation in an appropriate manner set forth in the journal’s rules
+
+b. If you have edited the Content for use, you must include a statement expressing that the content has been edited, in addition to the abovementioned source citation, but not in any way that making public or using edited information in a format that may be misconstrued as having been created by the Government of Japan (or its ministries and/or agencies).
+
+　　   (Example of citation when using edited content)
+ * Created by editing GSI Tiles (elevation)
+ * Created by Company YY based on XX data (Geospatial Information Authority of Japan) (URL of the relevant page)
+
+2) No infringement of third party rights
+-----------------------------------------
+ a. In some cases, a third party (refers to a party other than the state. Hereinafter referred to as “Third Party”) may hold copyrights or other rights to a part of the Content. For Content where a Third Party holds copyrights or other rights (e.g. portrait rights in a photograph, publicity rights etc.), it is the responsibility of the user to obtain consent for use from the Third Party unless there is explicit indication that the rights have already been cleared.
+
+ b. If a Third Party holds rights to a part of the Content, said fact may be directly or indirectly stated or indicated through source citations, but in some cases the part of the Content to which the Third Party holds the rights may not be clear or may not be explicitly stated. It is the responsibility of the user to confirm the rights pertaining to use of the Content.
+         (Examples of the cases indicating or suggesting that Third Party holds rights)
+
+ c. The user must comply with the terms and conditions of the source provider for Content obtained through API (Application Programming Interface) links to external databases etc.
+ d. Even if a Third Party holds copyrights to the Content, some use of the Content, such as quoting, may be allowed without the consent of the copyright holder, under the Copyright Act of Japan.
+
+
+3) Content where use is restricted by specific laws and ordinances
+-------------------------------------------------------------------
+ a. Use of some Content may be restricted by specific laws and ordinances. Laws and ordinances listed below are particularly important to note. Please refer to the relevant link(s) below for details.
+ * Application for duplication and use when using Basic Survey Results based on Survey Act (in Japanese)　(gsi-fukusei@ml.mlit.go.jp)
+ * Regarding the application for duplication and use of Public Survey Results based on Survey Act, you must obtain approval from the Survey Planning Organization that has developed the concerned Survey Results. With regard to the results developed by GSI, approval from GSI is needed. For further details, please confirm to the Survey Planning Organization concerned.
+ * "Service for Browsing Control Points"(http://sokuseikagis1.gsi.go.jp/ in Japanese) as prescribed in Article 27 (3) and Article 42 (1) of Survey Act is provided to browse Survey Results and Survey Records. Descriptions of Control Points in Survey Records are not available other than browsing because they include retained personal information as prescribed in Article 8 of Act on the Protection of Personal Information Held by Administrative Organs.
+
+4) Content where the Terms of Use does not apply
+-------------------------------------------------
+The Terms of Use herein does not apply to the following Content.
+ a. Symbol mark, Logo, and Character Design which represent the organization or specific business.
+ b. Content where other terms of use apply with rational and concrete reason.
+        (Please refer to Notes. Content where other terms of use apply.
+
+5) Governing law and jurisdiction
+----------------------------------
+ a. The Terms of Use shall be governed by and construed in accordance with the laws of Japan.
+ b. In case of disputes relating to the use of the Content based on the Terms of Use, or the Terms of Use, the user agrees that the exclusive court of first instance shall be the district court with jurisdiction in the place where the organization that has published the disputed Content or Terms of Use is located.
+
+6) Disclaimer
+--------------
+ a. The state bears absolutely no responsibility for any action taken by the user involving the use of the Content (including use of information based on edited Content).
+ b. The Content may be modified, moved or deleted without prior notice.
+
+7) Other
+--------
+ a. The Terms of Use does not limit those types of uses for which, under Copyright Act of Japan, license from the right holders are not required.
+ b. The Terms of Use was established on 25th January, 2016. The Terms of Use is based on the Government of Japan Standard Terms of Use (Version 2.0). The Terms of Use may be modified in the future. If you are already using Content under previous version of the Government of Japan Standard Terms of Use, these terms and conditions will continue to apply.
+ c. The Terms of Use are compatible with the Creative Commons Attribution License 4.0 (hereinafter referred to as the CC License). This means that Content based on the Terms of Use may be used under the CC License in lieu of the Terms of Use.
+
+
+Examples of the cases indicating or suggesting that Third Party holds rights
+============================================================================
+
+ * Interferometric SAR images published in Geospatial Information Authority of Japan website are analyzed by Geospatial Information Authority of Japan. Raw data of ALOS/PALSAR is owed by Ministry of Economy, Trade and Industry (METI) and Japan Aerospace Exploration Agency (JAXA) and that of ALOS-2/PALSAR-2 is owed by JAXA.
+ * When citing interferometric image using PALSAR and PALSAR 2 data, abovementioned fact must be explicitly stated and credit for the image must be given as follows:
+   - ALOS/PALSAR: "Analysis by GSI from ALOS raw data of JAXA, METI"
+   - ALOS-2/PALSAR-2: "Analysis by GSI from ALOS raw data of JAXA"
+ * lIGS precise ephemeris files provided in "GEONET Data Service" are created by IGS (International GNSS Service), therefore it is necessary not to infringe the IGS’s rights.
+ * With regard to articles in the Report of Coordinating Committee for Earthquake Prediction, copyright on each article is held by the respective author. If you reprint or copy the content in the report beyond the scope of citation, approval from the copyright holder is required. For application procedures and other inquiries, please contact the Secretariat of Coordinating Committee for Earthquake Prediction.
+
+
+Notes.
+======
+Content where other terms of use apply
+--------------------------------------
+Terms of use other than the Terms of Use herein shall apply to software （programs） provided in downloadable format, if the specific terms of use are set forth in the software.

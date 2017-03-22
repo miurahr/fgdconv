@@ -51,6 +51,12 @@ GMLに変換するには、つぎのように実行する::
 License and copyright
 ---------------------
 
+Japan fundamental geospatial data schema is licensed under the
+Government of Japan Standard Terms of Use (Version 2.0).
+The schema file is localed at fgdconv/sax/data/FGD_GMLSchema.xsd
+The term of use is in LICENSE_JPGOV2.0.txt and/or LICENSE_JPGOV2.0_ja.txt
+
+
 ::
 
     The MIT License (MIT)
