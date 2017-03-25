@@ -1,36 +1,47 @@
 environment:
   matrix:
-    - TOXENV: py27
-    - TOXENV: py35
-    - TOXENV: py36
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "27"
+      PYTHON_ARCH: "32"
+      WIN_ARCH: "win32"
+    - PYTHON: "C:\\Python35"
+      PYTHON_VERSION: "35"
+      PYTHON_ARCH: "32"
+      WIN_ARCH: "win32"
+    - PYTHON: "C:\\Python36"
+      PYTHON_VERSION: "36"
+      PYTHON_ARCH: "32"
+      WIN_ARCH: "win32"
+    - PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: "27"
+      PYTHON_ARCH: "64"
+      WIN_ARCH: "win_amd64"
+    - PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: "35"
+      PYTHON_ARCH: "64"
+      WIN_ARCH: "win_amd64"
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "36"
+      PYTHON_ARCH: "64"
+      WIN_ARCH: "win_amd64"
 
 shallow_clone: true
 
 install:
-  - set SDK=release-1800-x64
-  - set SDK_ZIP=%SDK%-dev.zip
-  - set SDK_URL=http://download.gisinternals.com/sdk/downloads/%SDK_ZIP%
-  - echo "%SDK_ZIP%"
-  - echo "%SDK_URL%"
-  - mkdir sdk
-  - cd sdk
-  - appveyor DownloadFile "%SDK_URL%"
-  - 7z x "%SDK_ZIP%" > nul
-  - cd ..
-  - set SDK_PREFIX=%CD%\sdk\%SDK%
-  - set SDK_INC=%CD%\sdk\%SDK%\include
-  - set SDK_LIB=%CD%\sdk\%SDK%\lib
-  - set SDK_BIN=%CD%\sdk\%SDK%\bin
-  - set PATH=%SDK_BIN%;%PATH%
-  - set GDAL_DATA=%SDK_BIN%\gdal-data
+  - 'git lfs install'
+  - 'git lfs pull'
+  - set GDAL_VERSION=2.1.3
+  - set PYTHON_BIN_VER="cp%PYTHON_VERSION%-cp%PYTHON_VERSION%m-%WIN_ARCH%"
+  - set GDAL_WHL="test_deps/GDAL-%GDAL_VERSION%-%PYTHON_BIN_VER.whl"
+  - 'python -m pip install -U pip'
   - 'python -m pip install wheel'
-  - 'python -m pip install tox'
+  - "python -m pip install %GDAL_WHL%"
 
 build: off
 
 test_script:
   - echo test_script
-  - 'python -m tox'
+  - python setup.py nosetests
 
 after_test:
   - 'python setup.py bdist_wheel'
