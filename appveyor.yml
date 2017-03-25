@@ -28,8 +28,6 @@ environment:
 shallow_clone: true
 
 install:
-  - 'git lfs install'
-  - 'git lfs pull'
   - set GDAL_VERSION=2.1.3
   - set PYTHON_BIN_VER="cp%PYTHON_VERSION%-cp%PYTHON_VERSION%m-%WIN_ARCH%"
   - set GDAL_WHL="test_deps/GDAL-%GDAL_VERSION%-%PYTHON_BIN_VER.whl"
