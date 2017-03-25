@@ -37,6 +37,7 @@ install:
   - "%PYTHON%\\python.exe -m pip install wheel"
   - "%PYTHON%\\python.exe -m pip install %GDAL_WHL%"
   - "%PYTHON%\\python.exe -m pip install %LXML_WHL%"
+  - "%PYTHON%\\python.exe -rrequirements.txt -rrequirements-dev.txt"
 
 build: off
 
