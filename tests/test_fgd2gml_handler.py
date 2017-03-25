@@ -33,18 +33,23 @@ from tests.xmlutil import assertXmlEqual
 class Fgd2GmlHandlerTestCase(TestCase):
     def setUp(self):
         self.here = os.path.dirname(__file__)
+        # detect python version
+        try:
+            unicode  # python2.7
+            self.py2 = True
+        except NameError:
+            # python3
+            self.py2 = False
 
     def test_sax_fgd2gml_handler(self):
         out_f = fgdconv.utils.get_temp_filename()
         # run converter
         with open(os.path.join(self.here, 'data', 'BldA_source.xml'), "r") as in_f:
             with fgd2gml_handler.Fgd2GmlHandler(out_f) as fgd_parser:
-                try:
-                    unicode  # python2.7
+                if self.py2:
                     in_buf = in_f.read().encode(encoding="utf-8")
                     xml.sax.parseString(in_buf, fgd_parser)
-                except NameError:
-                    # python3
+                else:
                     xml.sax.parse(in_f, fgd_parser)
         # check result
         with open(out_f, "r") as f1:

@@ -42,6 +42,11 @@ class Fgd2OgrTestCase(TestCase):
     def setUp(self):
         self.here = os.path.dirname(__file__)
         self.out_d_base = tempfile.mkdtemp()
+        try:
+            unicode  # python2.7
+            self.py2 = True
+        except NameError:
+            self.py2 = False
 
     def test_main(self):
         # set argparser argument mock
@@ -51,11 +56,10 @@ class Fgd2OgrTestCase(TestCase):
         args.format = "GML"
 
         # test main process according to Python version
-        try:
-            unicode  # python2.7
+        if self.py2:
             args.infile = os.path.join(self.here, "data", "BldA.xml")
             fgd2ogr.process2(args)
-        except NameError:  # python3
+        else:
             args.infile = open(os.path.join(self.here, "data",
                                             "BldA_source.xml"), "r")
             fgd2ogr.process(args)
@@ -77,11 +81,10 @@ class Fgd2OgrTestCase(TestCase):
         args.format = "GML"
 
         # test main process with conversion flag
-        try:
-            unicode  # python2.7
+        if self.py2:
             args.infile = os.path.join(self.here, "data", "BldA_source.xml")
             fgd2ogr.process2(args)
-        except NameError:
+        else:
             args.infile = open(os.path.join(self.here, "data",
                                             "BldA_source.xml"), "r")
             fgd2ogr.process(args)
