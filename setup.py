@@ -21,7 +21,11 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 # Dependencies
-requires = ['lxml>=3.7.3', 'pygdal']
+# Actually depends pygdal which version is same as GDAL library, but
+# there is no way to specify proper version for any platform.
+# Now we are drop it from requires list.
+# requires = ['lxml>=3.7.3', 'pygdal']
+requires = ['lxml>=3.7.3']
 extras = {
     'dev': ['virtualenv'],
     'test': ['check_manifest', 'coverage', 'flake8', 'nose', 'tox']}
