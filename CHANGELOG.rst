@@ -9,16 +9,21 @@ All notable changes to this project will be documented in this file.
 
 Added
 -----
+* test: CI test with AppVeyor for windows, Tavis-CI on Linux.
+* test: Record test coverage on coveralls.
+* test: Python gdal binary for test on windows.
 
 Changed
 -------
-- Update FGD schema to V4.1
-- Sax handler constructor accept an output file path instead of file object.
-- Refactoring main method
-- Refactoring test
+* Update FGD schema to V4.1
+* Sax handler constructor accept an output file path instead of file object.
+* Refactoring main method
+* Refactoring test
 
 Fixed
 -----
+* Add copyright for test utility xml_compare.
+* Add license of FGD schema file.
 
 
 `v0.3.0`_
