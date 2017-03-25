@@ -1,5 +1,4 @@
 language: python
-python: 3.5
 env:
   matrix:
     - TOXENV=py27
@@ -13,8 +12,6 @@ before_install:
 install:
   - pip install tox
   - pip install coveralls
-  - pip install -rrequirements.txt -rrequirements-dev.txt
-  - pip install pygdal
 
 script:
   tox
