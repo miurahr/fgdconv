@@ -1,5 +1,5 @@
 # Include the data files
-recursive-include fgdconv/data *
+recursive-include fgdconv/sax/data *
 
 # Include pyenv configuration
 include .python-version
@@ -8,4 +8,3 @@ include .python-version
 include *.rst
 include *.txt
 recursive-include docs *.rst conf.py
-
