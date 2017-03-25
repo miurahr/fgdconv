@@ -43,7 +43,10 @@ build: off
 
 test_script:
   - echo test_script
-  - "%PYTHON%\\python.exe setup.py test"
+  - "%PYTHON%\\python.exe -m check-manifest --ignore tox.ini,tests*
+  - "%PYTHON%\\python.exe setup.py check -m -r -s"
+  - "%PYTHON%\\python.exe -m flake8 ."
+  - "%PYTHON%\\python.exe -m py.test tests"
 
 after_test:
   - "%PYTHON%\\python.exe setup.py bdist_wheel"

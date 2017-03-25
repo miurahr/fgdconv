@@ -1,0 +1,23 @@
+language: python
+python: 3.5
+env:
+  matrix:
+    - TOXENV=py27
+    - TOXENV=py35
+    - TOXENV=py36
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libxml2-dev libgdal1-dev
+
+install:
+  - pip install tox
+  - pip install coveralls
+  - pip install -rrequirements.txt -rrequirements-dev.txt
+  - pip install pygdal
+
+script:
+  tox
+
+after_success:
+  coveralls
