@@ -1,6 +1,16 @@
 FGDConv
 =======
 
+.. image:: https://travis-ci.org/miurahr/fgdconv.svg?branch=master
+    :target: https://travis-ci.org/miurahr/fgdconv
+
+.. image:: https://ci.appveyor.com/api/projects/status/no8xshe7ojr3jdvu?svg=true
+    :target: https://ci.appveyor.com/project/miurahr/fgdconv
+
+.. image:: https://coveralls.io/repos/github/miurahr/fgdconv/badge.svg?branch=master
+    :target: https://coveralls.io/github/miurahr/fgdconv?branch=master
+
+
 This is a converter program to convert from Fundamental Geospatial Data provided
 by Geographic Information Authority of Japan(GSI) to GML.
 
