@@ -17,6 +17,12 @@ Python 2.7.13, Python 3.4 or later. Python 3.5 or later is recommended.
 実行には Python 3.4 または Python 2.7.13 が必要である。
 Python バージョン3.5以降が推奨される。
 
+It use GDAL library and its Python bindings.
+Please install GDAL for your platform before use this script.
+Details are in docs/installation.rst
+動作には、GDALライブラリとそのPythonバインディングが必要です。
+本コマンド利用の前に、必要なGDALライブラリを入れてください。
+詳細は、docs/installation.rst を参照してください。
 
 Basic usage
 -----------
