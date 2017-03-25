@@ -39,7 +39,7 @@ build: off
 
 test_script:
   - echo test_script
-  - python setup.py nosetests
+  - python setup.py test
 
 after_test:
   - 'python setup.py bdist_wheel'
