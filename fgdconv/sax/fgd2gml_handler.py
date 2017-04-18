@@ -40,8 +40,8 @@ class Fgd2GmlHandler(ContentHandler):
     def __init__(self, file_path):
         ContentHandler.__init__(self)
         self.fh = open(file_path, 'wb')
-        self.xsdFile = open(os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                    'data/FGD_GMLSchema.xsd'))
+        self.xsdFile = open(os.path.join(os.path.abspath(
+                os.path.dirname(__file__)), 'data/FGD_GMLSchema.xsd'))
         self.schema = fgdschema.FgdSchema(self.xsdFile)
         self.featureId = None
         self.featureTag = None  # ex) 'WStrL', 'Cstline', etc...
