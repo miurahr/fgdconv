@@ -13,6 +13,7 @@ sudo debootstrap xenial "$chroot"
 sudo mount --rbind "$PWD" "$chroot$PWD"
 sudo mount --rbind /dev/pts "$chroot/dev/pts"
 sudo mount --rbind /proc "$chroot/proc"
+sudo mount -t tmpfs tmpfs "$chroot/dev/shm"
 sudo su -c 'echo "deb http://archive.ubuntu.com/ubuntu xenial universe" >> xenial/etc/apt/sources.list'
 sudo chroot "$chroot" locale-gen en_US.UTF-8
 sudo chroot "$chroot" dpkg-reconfigure locales
