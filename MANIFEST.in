@@ -8,3 +8,8 @@ include .python-version
 include *.rst
 include *.txt
 recursive-include docs *.rst conf.py
+
+# Include test data
+include *.yml
+recursive-include ci *.sh
+recursive-include test_deps *.whl
