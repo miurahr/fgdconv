@@ -36,10 +36,20 @@ except ImportError:
 
 
 def assertXmlEqual(s1, s2):
+    try:
+        unicode
+        py2 = True
+    except NameError:
+        py2 = False
+
     # file like object
     if hasattr(s1, 'read'):
-        x1 = ET.parse(s1).getroot()
-        x2 = ET.parse(s2).getroot()
+        if py2:
+            x1 = ET.fromstring(s1.read().encode(encoding="utf-8"))
+            x2 = ET.fromstring(s2.read().encode(encoding="utf-8"))
+        else:
+            x1 = ET.parse(s1).getroot()
+            x2 = ET.parse(s2).getroot()
         if not xml_compare(x1, x2):
             raise AssertionError
         return
