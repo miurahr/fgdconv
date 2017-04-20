@@ -48,7 +48,7 @@ class Fgd2GmlHandlerTestCase(TestCase):
                   "r", encoding="utf-8") as in_f:
             with fgd2gml_handler.Fgd2GmlHandler(out_f_name) as fgd_parser:
                 if self.py2:
-                    in_buf = in_f.read()
+                    in_buf = in_f.read().encode(encoding='utf-8')
                     xml.sax.parseString(in_buf, fgd_parser)
                 else:
                     xml.sax.parse(in_f, fgd_parser)
