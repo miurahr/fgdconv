@@ -24,6 +24,8 @@
 # THE SOFTWARE.
 #
 
+from __future__ import print_function
+import sys
 try:
     import doctest
     doctest.OutputChecker
@@ -51,6 +53,10 @@ def assertXmlEqual(s1, s2):
             x1 = ET.parse(s1).getroot()
             x2 = ET.parse(s2).getroot()
         if not xml_compare(x1, x2):
+            errprint('Actual: %s\n\n' % s1.read())
+            errprint('Expected: %s\n\n' % s2.read())
+            errprint('Difference: ')
+            xml_compare(x1, x2, errprint)
             raise AssertionError
         return
 
@@ -58,7 +64,15 @@ def assertXmlEqual(s1, s2):
     x1 = ET.fromstring(s1)
     x2 = ET.fromstring(s2)
     if not xml_compare(x1, x2):
+        errprint('Actual: %s\n\n' % s1)
+        errprint('Expected: %s\n\n' % s2)
+        errprint('Difference: ')
+        xml_compare(x1, x2, errprint)
         raise AssertionError
+
+
+def errprint(s):
+    print(s, file=sys.stderr)
 
 
 def xml_compare(x1, x2, reporter=None):
