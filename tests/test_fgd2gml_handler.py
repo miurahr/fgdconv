@@ -42,17 +42,18 @@ class Fgd2GmlHandlerTestCase(TestCase):
             self.py2 = False
 
     def test_sax_fgd2gml_handler(self):
-        out_f = fgdconv.utils.get_temp_filename()
+        out_f_name = fgdconv.utils.get_temp_filename()
         # run converter
-        with open(os.path.join(self.here, 'data', 'BldA_source.xml'), "r") as in_f:
-            with fgd2gml_handler.Fgd2GmlHandler(out_f) as fgd_parser:
+        with open(os.path.join(self.here, 'data', 'BldA_source.xml'),
+                  "r", encoding="utf-8") as in_f:
+            with fgd2gml_handler.Fgd2GmlHandler(out_f_name) as fgd_parser:
                 if self.py2:
-                    in_buf = in_f.read().encode(encoding="utf-8")
+                    in_buf = in_f.read()
                     xml.sax.parseString(in_buf, fgd_parser)
                 else:
                     xml.sax.parse(in_f, fgd_parser)
         # check result
-        with open(out_f, "r") as f1:
+        with open(out_f_name, "r") as out_f:
             with open(os.path.join(self.here, 'data', "BldA_jgd2000.gml"),
-                      "r") as f2:
-                assertXmlEqual(f1, f2)
+                      "r", encoding="utf-8") as expected:
+                assertXmlEqual(out_f, expected)

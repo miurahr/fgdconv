@@ -47,18 +47,16 @@ class Ogr2OgrTestCase(TestCase):
         converter = Ogr2Ogr(4612, 4326)
         converter.convert(in_f_name, "GML", out_f_name, "GML")
         # assertion
-        with open(out_f_name, 'r', encoding="utf-8") as f:
-            out_text = f.read()
-        with open(os.path.join(self.here, "data",
-                               "BldA_wgs84.gml"), "r", encoding="utf-8") as f:
-            expected = f.read()
-        assertXmlEqual(out_text, expected)
+        with open(out_f_name, 'r', encoding="utf-8") as out_f:
+            with open(os.path.join(self.here, "data", "BldA_wgs84.gml"),
+                      "r", encoding="utf-8") as expected:
+                assertXmlEqual(out_f, expected)
 
     def test_convert_shapefile(self):
         # resources
         in_f_name = os.path.join(self.here, "data", 'BldA_jgd2000.gml')
         test_f_name = "BldA84_test.shp"
-        out_d_name = os.path.join(self.out_d_base, "BldA84_test", )
+        out_d_name = os.path.join(self.out_d_base, "BldA84_test")
         # test body
         converter = Ogr2Ogr(4612, 4326)
         converter.convert(in_f_name, "GML", out_d_name, "ESRI Shapefile")

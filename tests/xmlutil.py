@@ -45,8 +45,8 @@ def assertXmlEqual(s1, s2):
     # file like object
     if hasattr(s1, 'read'):
         if py2:
-            x1 = ET.fromstring(s1.read().encode(encoding="utf-8"))
-            x2 = ET.fromstring(s2.read().encode(encoding="utf-8"))
+            x1 = ET.fromstring(s1.read())
+            x2 = ET.fromstring(s2.read())
         else:
             x1 = ET.parse(s1).getroot()
             x2 = ET.parse(s2).getroot()
