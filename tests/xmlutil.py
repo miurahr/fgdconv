@@ -52,11 +52,7 @@ def assertXmlEqual(s1, s2):
         else:
             x1 = ET.parse(s1).getroot()
             x2 = ET.parse(s2).getroot()
-        if not xml_compare(x1, x2):
-            errprint('Actual: %s\n\n' % s1.read())
-            errprint('Expected: %s\n\n' % s2.read())
-            errprint('Difference: ')
-            xml_compare(x1, x2, errprint)
+        if not xml_compare(x1, x2, errprint):
             raise AssertionError
         return
 
@@ -67,11 +63,7 @@ def assertXmlEqual(s1, s2):
     else:
         x1 = ET.fromstring(s1)
         x2 = ET.fromstring(s2)
-    if not xml_compare(x1, x2):
-        errprint('Actual: %s\n\n' % s1)
-        errprint('Expected: %s\n\n' % s2)
-        errprint('Difference: ')
-        xml_compare(x1, x2, errprint)
+    if not xml_compare(x1, x2, errprint):
         raise AssertionError
 
 
