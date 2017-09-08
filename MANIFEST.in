@@ -4,6 +4,9 @@ recursive-include fgdconv/sax/data *
 # Include pyenv configuration
 include .python-version
 
+# Include test script
+include run_test.sh
+
 # Include documents
 include *.rst
 include *.txt

@@ -81,8 +81,9 @@ Test
 本プロジェクトでは、テストにtoxを用いています。toxを起動する際に環境変数PYGDAL_VER を設定し、
 システムにインストールされているGDALとGDALのPythonバインディングのバージョンが一致するように
 調整してください。
+テスト実行用のシェルスクリプトが用意されています。
 
-    $ PYGDAL_VER＝`gdal-config --version`.3 tox
+    $ ./run_test.sh
 
 詳しくは、docs/development.rst を参照してください。
 
