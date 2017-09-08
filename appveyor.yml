@@ -1,9 +1,5 @@
 environment:
   matrix:
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "27"
-      PYTHON_ARCH: "32"
-      WIN_ARCH: "win32"
     - PYTHON: "C:\\Python35"
       PYTHON_VERSION: "35"
       PYTHON_ARCH: "32"
@@ -12,11 +8,6 @@ environment:
       PYTHON_VERSION: "36"
       PYTHON_ARCH: "32"
       WIN_ARCH: "win32"
-    - PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "27"
-      PYTHON_ARCH: "64"
-      WIN_ARCH: "win_amd64"
-    - PYTHON: "C:\\Python35-x64"
       PYTHON_VERSION: "35"
       PYTHON_ARCH: "64"
       WIN_ARCH: "win_amd64"
@@ -50,7 +41,7 @@ test_script:
   - echo test_script
   - "%PYTHON%\\python.exe setup.py check -m -r -s"
   - "%PYTHON%\\python.exe -m flake8 ."
-  - "%PYTHON%\\python.exe -m py.test tests"
+  - "%PYTHON%\\python.exe -m setup.py test"
 
 after_test:
   - "%PYTHON%\\python.exe setup.py bdist_wheel"
