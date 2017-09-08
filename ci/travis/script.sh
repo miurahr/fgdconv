@@ -6,4 +6,4 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-sudo chroot "$chroot" sh -c "cd $PWD && PYGDAL_VER=`/usr/bin/gdal-config --version`.3 tox"
+sudo chroot "$chroot" sh -c "cd $PWD && ./run_test.sh"
