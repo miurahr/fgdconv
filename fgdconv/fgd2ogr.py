@@ -121,9 +121,8 @@ def process2(args):
             raise ValueError("Format is invalid")
     else:
         if args.format == "GML":
-            with open(args.outfile, 'wb') as outfile:
+            with Fgd2GmlHandler(args.outfile) as h:
                 with open(args.infile, 'r') as in_f:
-                    with Fgd2GmlHandler(outfile) as h:
                         source = in_f.read().encode(encoding="utf-8")
                         xml.sax.parseString(source, h)
         else:

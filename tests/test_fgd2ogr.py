@@ -57,7 +57,7 @@ class Fgd2OgrTestCase(TestCase):
 
         # test main process according to Python version
         if self.py2:
-            args.infile = os.path.join(self.here, "data", "BldA.xml")
+            args.infile = os.path.join(self.here, "data", "BldA_source.xml")
             fgd2ogr.process2(args)
         else:
             args.infile = open(os.path.join(self.here, "data",
