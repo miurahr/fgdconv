@@ -27,7 +27,7 @@ It is recommended to use `pyenv` to install python versions::
     $ pyenv local venv 2.7.13 3.4.6 3.5.3 3.6.0
     $ sudo apt install libgdal-dev
     $ pip install -rrequirements.txt -rrequirements-dev.txt
-    $ tox
+    $ PYGDAL_VER=`gdal-config --version`.3 tox
 
 
 Tested versions
