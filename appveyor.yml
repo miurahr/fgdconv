@@ -8,6 +8,7 @@ environment:
       PYTHON_VERSION: "36"
       PYTHON_ARCH: "32"
       WIN_ARCH: "win32"
+    - PYTHON: "C:\\Python35-x64"
       PYTHON_VERSION: "35"
       PYTHON_ARCH: "64"
       WIN_ARCH: "win_amd64"
