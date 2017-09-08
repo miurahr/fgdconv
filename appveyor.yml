@@ -31,8 +31,13 @@ install:
   - set GDAL_VERSION=2.1.3
   - set LXML_VERSION=3.7.3
   - set PYTHON_BIN_VER="cp%PYTHON_VERSION%-cp%PYTHON_VERSION%m-%WIN_ARCH%"
-  - set GDAL_WHL="test_deps/GDAL-%GDAL_VERSION%-%PYTHON_BIN_VER%.whl"
-  - set LXML_WHL="test_deps/lxml-%LXML_VERSION%-%PYTHON_BIN_VER%.whl"
+  - set GDAL_WHL="GDAL-%GDAL_VERSION%-%PYTHON_BIN_VER%.whl"
+  - set LXML_WHL="lxml-%LXML_VERSION%-%PYTHON_BIN_VER%.whl"
+  # test dependency packages are stored in git-lfs.
+  # Now download separately.
+  - curl -fsSLO https://github.com/miurahr/fgdconv/raw/master/test_deps/%GDAL_WHL%
+  - curl -fsSLO https://github.com/miurahr/fgdconv/raw/master/test_deps/%LXML_WHL%
+  # install all dependencies
   - "%PYTHON%\\python.exe -m pip install wheel"
   - "%PYTHON%\\python.exe -m pip install -U pip"
   - "%PYTHON%\\python.exe -m pip install %GDAL_WHL%"
