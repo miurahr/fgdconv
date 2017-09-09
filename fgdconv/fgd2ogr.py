@@ -22,7 +22,6 @@
 
 import argparse
 import os
-import platform
 import xml
 
 from fgdconv.ogr2ogr import Ogr2Ogr
@@ -59,12 +58,7 @@ def process(args):
         if is_valid(args.format, args.outfile):
             gml_f = fgdconv.utils.get_temp_filename()
             with Fgd2GmlHandler(gml_f) as h:
-                if platform.system() == 'Windows':
-                    xml.sax.parse(args.infile, h)
-                else:
-                    with open(args.infile, 'r') as in_f:
-                            source = in_f.read().encode(encoding="utf-8")
-                            xml.sax.parseString(source, h)
+                xml.sax.parse(args.infile, h)
             converter = Ogr2Ogr(4612, 4326)
             converter.convert(gml_f, "GML", args.outfile, args.format)
             os.unlink(gml_f)
@@ -73,12 +67,7 @@ def process(args):
     else:
         if args.format == "GML":
             with Fgd2GmlHandler(args.outfile) as h:
-                if platform.system() == 'Windows':
-                    xml.sax.parse(args.infile, h)
-                else:
-                    with open(args.infile, 'r') as in_f:
-                            source = in_f.read().encode(encoding="utf-8")
-                            xml.sax.parseString(source, h)
+                xml.sax.parse(args.infile, h)
         else:
             if is_valid(args.format, args.outfile):
                 converter = Ogr2Ogr(4612, 4612)
