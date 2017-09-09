@@ -37,10 +37,10 @@ def main():
     parser.add_argument('-f', dest='format', nargs='?',
                         default="GML",
                         help="Output file format name" +
-                             "(Default is ESRI Shapefile)." +
+                             "(Default is GML)." +
                              "Some possible values are:\n" +
-                             '    -f "ESRI Shapefile"' +
-                             '\n    -f "GML"')
+                             '    -f "ESRI Shapefile"\n' +
+                             '    -f "GML"')
     parser.add_argument('infile', type=argparse.FileType('r'),
                         help='FGD JPGIS(GML) v4 input file.')
     parser.add_argument('outfile', help='Output GML file. If not specified')
@@ -90,7 +90,7 @@ def main2():
     parser.add_argument('-f', dest='format', nargs='?',
                         default="GML",
                         help="Output file format name." +
-                             "(Default is ESRI Shapefile)." +
+                             "(Default is GML)." +
                              "Some possible values are:\n" +
                              '    -f "ESRI Shapefile"' +
                              '\n    -f "GML"')
