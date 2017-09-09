@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
 import lxml.etree
 import xml.etree.ElementTree as ET
 
@@ -148,20 +147,3 @@ class FgdSchema(Schema):
                 elements.append(v.attrib)
 
         return elements
-
-
-if __name__ == '__main__':
-    xsdFile = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                           'data/FGD_GMLSchema.xsd')
-    with open(xsdFile) as f:
-        schema = FgdSchema(f)
-        element_names = schema.get_fgd_element_names()
-        print(element_names)
-        print(schema.get_fgd_element_attributes("WStrL"))
-        print(schema.get_fgd_element("WStrL", "loc"))
-        print(schema.get_fgd_elements("WStrL"))
-        # print all types.
-        for e in element_names:
-            elements = schema.get_fgd_elements(e)
-            for i in elements:
-                print(i['type'].encode('utf_8'))
