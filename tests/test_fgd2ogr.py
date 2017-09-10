@@ -73,6 +73,23 @@ class Fgd2OgrTestCase(TestCase):
             expected = f.read()
         assertXmlEqual(out_text, expected)
 
+    def test_esri(self):
+        # set argparser argument mock
+        args = MockArgs()
+        args.conv = False
+        args.outfile = os.path.join(self.out_d_base, "BldA84_test/")
+        args.format = "ESRI Shapefile"
+
+        # test main process according to Python version
+        if self.py2:
+            args.infile = os.path.join(self.here, "data", "BldA_source.xml")
+            fgd2ogr.process2(args)
+        else:
+            args.infile = open(os.path.join(self.here, "data",
+                                            "BldA_source.xml"), "r")
+            fgd2ogr.process(args)
+            args.infile.close()
+
     def test_conv(self):
         # set argparser argument mock
         args = MockArgs()
