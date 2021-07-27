@@ -1,0 +1,7 @@
+[build-system]
+requires = ["setuptools>=45"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 125
+target-version = ['py38']

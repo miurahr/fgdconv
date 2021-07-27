@@ -1,18 +1,5 @@
-# Include the data files
-recursive-include fgdconv/sax/data *
-
-# Include pyenv configuration
-include .python-version
-
-# Include test script
-include run_test.sh
-
-# Include documents
 include *.rst
 include *.txt
-recursive-include docs *.rst conf.py
-
-# Include test data
 include *.yml
-recursive-include ci *.sh
-recursive-include test_deps *.whl
+recursive-include docs *.rst conf.py
+recursive-include fgdconv/sax/data *
